@@ -4,11 +4,12 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {StyleSheet, Text, ScrollView, View, Alert} from 'react-native';
-import {user_info} from "../api/api";
+import React, { Component } from 'react';
+import { StyleSheet, Text, ScrollView, View, Alert, StatusBar } from 'react-native';
+import { user_info } from "../api/api";
 
 import AsyncStorage from '@react-native-community/async-storage';
+import HeadBgImg from '../components/HeadBgImg';
 
 const keyMap = new Map();
 
@@ -94,7 +95,8 @@ export default class About extends Component {
 
     }
 
-    async componentWillMount(): void {
+    async componentWillMount() {
+        StatusBar.setBarStyle('light-content');
         try {
             let data;
             try {
@@ -108,7 +110,7 @@ export default class About extends Component {
                 data = (await user_info()).data;
             }
 
-            this.setState({...data});
+            this.setState({ ...data });
 
             AsyncStorage.setItem('info', JSON.stringify(data))
 
@@ -146,55 +148,62 @@ export default class About extends Component {
             schoolinfo
         } = this.state;
         return (
-            <ScrollView style={styles.container}>
-                <View style={styles.item_warp}>
-                    <View>
-                        <Text style={styles.title}>{keyMap.get('basicsinfo')}</Text>
+            <View style={styles.container}>
+                <HeadBgImg />
+                <ScrollView>
+                    <View style={[styles.item_warp, styles.topSize]}>
+                        <View>
+                            <Text style={styles.title}>{keyMap.get('basicsinfo')}</Text>
+                        </View>
+                        {this.itemRender({ ...basicsinfo })}
                     </View>
-                    {this.itemRender({...basicsinfo})}
-                </View>
-                <View style={styles.item_warp}>
-                    <View>
-                        <Text style={styles.title}>{keyMap.get('contactinfo')}</Text>
+                    <View style={styles.item_warp}>
+                        <View>
+                            <Text style={styles.title}>{keyMap.get('contactinfo')}</Text>
+                        </View>
+                        {this.itemRender({ ...contactinfo })}
                     </View>
-                    {this.itemRender({...contactinfo})}
-                </View>
-                <View style={styles.item_warp}>
-                    <View>
-                        <Text style={styles.title}>{keyMap.get('homeinfo')}</Text>
+                    <View style={styles.item_warp}>
+                        <View>
+                            <Text style={styles.title}>{keyMap.get('homeinfo')}</Text>
+                        </View>
+                        {this.itemRender({ ...homeinfo })}
                     </View>
-                    {this.itemRender({...homeinfo})}
-                </View>
-                <View style={[styles.item_warp, styles.item_warp_last]}>
-                    <View>
-                        <Text style={styles.title}>{keyMap.get('schoolinfo')}</Text>
+                    <View style={[styles.item_warp, styles.item_warp_last]}>
+                        <View>
+                            <Text style={styles.title}>{keyMap.get('schoolinfo')}</Text>
+                        </View>
+                        {this.itemRender({ ...schoolinfo })}
                     </View>
-                    {this.itemRender({...schoolinfo})}
-                </View>
-            </ScrollView>
+                </ScrollView>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        padding: 10,
-        backgroundColor: '#f0f0f0',
+        backgroundColor: '#f9f9f9',
+    },
+    topSize: {
+        marginTop: 40
     },
     sectionHeader: {
         paddingTop: 2,
         paddingLeft: 10,
         paddingRight: 10,
         paddingBottom: 2,
+
         fontSize: 14,
         fontWeight: 'bold',
         backgroundColor: 'rgba(247,247,247,1.0)',
     },
     item_warp: {
-        backgroundColor: '#fff',
+        backgroundColor: '#fffd',
         padding: 10,
         borderRadius: 10,
-        marginTop: 10
+        marginTop: 10,
+        margin: 10,
     },
     item_warp_last: {
         marginBottom: 30
@@ -203,14 +212,15 @@ const styles = StyleSheet.create({
         padding: 4,
         fontSize: 16,
         height: 44,
+        color: '#5d6490'
     },
     title: {
         paddingLeft: 4,
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#000',
+        color: '#222c69',
         borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: '#eee',
+        borderBottomColor: '#b7bacd',
         paddingBottom: 10,
         marginBottom: 6
         // backgroundColor: '#ccc'

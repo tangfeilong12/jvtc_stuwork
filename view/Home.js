@@ -4,11 +4,11 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {StyleSheet, Text, View, Image, Alert} from 'react-native';
-import {login, WorkInfo} from "../api/api";
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, Image, Alert, ImageBackground, StatusBar } from 'react-native';
+import { WorkInfo } from "../api/api";
 import AsyncStorage from "@react-native-community/async-storage";
-
+import HeadBgImg from '../components/HeadBgImg';
 export default class Home extends Component {
     static navigationOptions = {
         title: '首页',
@@ -33,17 +33,18 @@ export default class Home extends Component {
 
     }
 
-    async componentWillMount(): void {
+    async componentWillMount() {
+        StatusBar.setBarStyle('light-content');
 
         try {
-            const {data} = await WorkInfo();
+            const { data } = await WorkInfo();
 
-            this.setState({...data});
+            this.setState({ ...data });
 
 
             const loginName = await AsyncStorage.getItem('loginName');
 
-            this.setState({loginName})
+            this.setState({ loginName })
 
 
         } catch (e) {
@@ -72,40 +73,46 @@ export default class Home extends Component {
         } = this.state;
         return (
             <View style={styles.container}>
-                <Image source={{uri: `http://xz.jvtc.jx.cn/JVTC_XG/DownLoad/Student/${loginName}.jpg`}}
-                       style={styles.head}/>
+
+                <HeadBgImg/>
+
+                <View style={styles.head_avatar}>
+                    <Image source={{ uri: `http://xz.jvtc.jx.cn/JVTC_XG/DownLoad/Student/${loginName}.jpg` }}
+                        style={styles.head} />
+                    <Text style={styles.head_name}>{loginName}</Text>
+                </View>
                 <View style={styles.main}>
-                    <View style={styles.item}>
-                        <Text>早操缺勤</Text>
+                    <View style={[styles.item, styles.rowBorder]}>
                         <Text style={styles.red}>{absence}</Text>
+                        <Text style={styles.item_text}>早操缺勤</Text>
                     </View>
                     <View style={styles.item}>
-                        <Text>旷课</Text>
                         <Text style={styles.red}>{truant}</Text>
+                        <Text style={styles.item_text}>旷课</Text>
                     </View>
-                    <View style={styles.item}>
-                        <Text>晚自习缺勤</Text>
+                    <View style={[styles.item, styles.rowBorder]}>
                         <Text style={styles.red}>{study}</Text>
+                        <Text style={styles.item_text}>晚自习缺勤</Text>
                     </View>
                     <View style={styles.item}>
-                        <Text>违纪</Text>
                         <Text style={styles.red}>{Illegal}</Text>
+                        <Text style={styles.item_text}>违纪</Text>
                     </View>
-                    <View style={styles.item}>
-                        <Text>挂科</Text>
+                    <View style={[styles.item, styles.rowBorder]}>
                         <Text style={styles.red}>{Failing}</Text>
+                        <Text style={styles.item_text}>挂科</Text>
                     </View>
                     <View style={styles.item}>
-                        <Text>平均成绩</Text>
                         <Text style={styles.red}>{grade}</Text>
+                        <Text style={styles.item_text}>平均成绩</Text>
                     </View>
-                    <View style={styles.item}>
-                        <Text>学分</Text>
+                    <View style={[styles.item, styles.noBBorder, styles.rowBorder]}>
                         <Text style={styles.red}>{score}</Text>
+                        <Text style={styles.item_text}>学分</Text>
                     </View>
-                    <View style={styles.item}>
-                        <Text>不及格</Text>
+                    <View style={[styles.item, styles.noBBorder]}>
                         <Text style={styles.red}>{flunk}</Text>
+                        <Text style={styles.item_text}>不及格</Text>
                     </View>
                 </View>
             </View>
@@ -115,36 +122,65 @@ export default class Home extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        position: 'relative',
         flex: 1,
         justifyContent: 'space-evenly',
         alignItems: 'center',
         backgroundColor: '#f9f9f9',
     },
-
+    head_avatar: {
+        margin: 60,
+        marginTop: 80,
+        width: 260,
+        height: 140,
+        borderRadius: 16,
+        backgroundColor: 'rgba(255,255,255,0.3)',
+        display: 'flex',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    head_name: {
+        fontSize: 18,
+        color: '#ffffff',
+        fontWeight: '600'
+    },
     head: {
-        width: 80, height: 100,
-        margin: 30,
-        borderRadius: 4
+        width: 80, height: 80,
+        borderRadius: 40,
     },
     main: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         flex: 1,
-        width: '96%',
-        marginBottom: 20,
-        margin: 10,
-        borderRadius: 8,
-        overflow: 'hidden'
+        width: '100%',
+        padding: 20,
+        marginTop: 30,
+        backgroundColor: '#f9f9f988'
     },
     item: {
-        borderBottomColor: "#f0f0f0",
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        flex: 1,
-        padding: 10,
-        paddingLeft: 20,
-        justifyContent: 'center',
-        backgroundColor: '#fff'
-        // borderBottom:'solid'
+        width: '50%',
+        borderBottomWidth: 1,
+        borderColor: '#c8cad8',
+        padding: 6,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    item_text: {
+        color: '#222c69',
+        fontWeight: '600',
+        fontSize: 18
+    },
+    noBBorder: {
+        borderBottomWidth: 0,
+    },
+    rowBorder: {
+        borderRightWidth: 1,
     },
     red: {
-        color: '#f00'
+        fontWeight: '600',
+        fontSize: 22,
+        color: '#222c69',
     }
 });

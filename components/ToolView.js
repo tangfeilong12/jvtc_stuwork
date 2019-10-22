@@ -17,7 +17,7 @@ export default class ToolView extends Component {
         this.state = {};
     }
 
-    async componentWillMount(): void {
+    async componentWillMount() {
 
     }
 
