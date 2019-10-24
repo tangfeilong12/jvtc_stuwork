@@ -6,41 +6,41 @@ import AsyncStorage from '@react-native-community/async-storage';
 const xhr = Axios.create({
     timeout: 6000,
     baseURL: url,
-    withCredentials:true
+    withCredentials: true
 });
 
 xhr.interceptors.response.use(async response => {
-        const data = response.data;
-        if (data.code !== 0) {
-            throw new Error(data && data.message || "未知错误");
-        }
+    const data = response.data;
+    if (data.code !== 0 && data.result !== 200) {
+        throw new Error(data && data.message || "未知错误");
+    }
 
-        if (data.token) {
-            try {
-                await AsyncStorage.setItem('token', data.token);
-            } catch (e) {
-                console.log(e)
-            }
+    if (data.token) {
+        try {
+            await AsyncStorage.setItem('token', data.token);
+        } catch (e) {
+            console.log(e)
         }
+    }
 
-        return data;
-    },
+    return data;
+},
     error => {
         return Promise.reject(error);
     });
 
 xhr.interceptors.request.use(async config => {
-        let token = '';
-        try {
-            token = await AsyncStorage.getItem('token') || '';
-        } catch (e) {
-            console.log(e)
-        }
-        config.withCredentials = true; // 允许携带token ,这个是解决跨域产生的相关问题
-        token && (config.headers.authorization = "Bearer " + token);
+    let token = '';
+    try {
+        token = await AsyncStorage.getItem('token') || '';
+    } catch (e) {
+        console.log(e)
+    }
+    config.withCredentials = true; // 允许携带token ,这个是解决跨域产生的相关问题
+    token && (config.headers.authorization = "Bearer " + token);
 
-        return config;
-    },
+    return config;
+},
     error => {
         return Promise.reject(error);
     });
@@ -79,5 +79,21 @@ export const AppAction = async (id) => {
 
 export const StuEnlightenRoomScore = async () => {
     return await xhr.get(`/StuEnlightenRoomScore`)
+};
+
+export const Course = async ({
+    loginCode,
+    week,
+    semester
+}) => {
+    return await xhr.post(`https://www.cccccc.online/jvtc/find_score/api/v1/course`, {
+        loginCode,
+        week:week.toString(),
+        semester
+    })
+};
+
+export const CourseWeek = async () => {
+    return await xhr.get(`https://www.cccccc.online/jvtc/find_score/api/v1/course/week`)
 };
 

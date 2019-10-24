@@ -1,13 +1,15 @@
 import {
     createSwitchNavigator,
     createAppContainer,
-    createBottomTabNavigator
+    createBottomTabNavigator,
+    createStackNavigator
 } from "react-navigation";
 import HomeScreen from './view/Home';
 import LoginScreen from './view/Login';
 import AboutScreen from './view/About';
 import StuActiveScreen from './view/StuActive';
 import StuEnlightenRoomScore from './view/StuEnlightenRoomScore';
+import CurriculumScreen from './view/Curriculum';
 
 import Ionicons from 'react-native-vector-icons/AntDesign';
 
@@ -47,7 +49,6 @@ const AppNavigator = createBottomTabNavigator(
                 } else if (routeName === 'StuEnlightenRoomScore') {
                     iconName = `calendar`;
                 }
-
                 // You can return any component that you like here!
                 return <IconComponent name={iconName} size={26} color={tintColor} />;
             },
@@ -58,19 +59,30 @@ const AppNavigator = createBottomTabNavigator(
             activeTintColor: '#222c69',
             inactiveTintColor: '#b8bbce',
             // activeBackgroundColor:'#f9f9f9',
-            style:{
+            style: {
                 borderTopWidth: 0,
                 height: 54,
-                paddingBottom: 2
+                paddingBottom: 2,
             }
         },
     }
 );
 
+const StackNavigator = createStackNavigator({
+    Curriculum: {
+        screen: CurriculumScreen
+    },
+    AppNavigator
+}, {
+    initialRouteName: "AppNavigator",
+    headerMode: "none"
+});
 
-export default createAppContainer(createSwitchNavigator({
+
+const SwitchNavigator = createSwitchNavigator({
     Login: {
         screen: LoginScreen
     },
-    AppNavigator
-}));
+    StackNavigator
+})
+export default createAppContainer(SwitchNavigator);

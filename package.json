@@ -1,19 +1,22 @@
 {
   "name": "jvtc",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "log": "adb logcat"
+    "log:a": "react-native log-android"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.4.2",
     "react": "16.8.3",
     "react-native": "0.59.9",
     "react-native-axios": "^0.17.1",
+    "react-native-code-push": "^5.7.0",
     "react-native-gesture-handler": "^1.3.0",
+    "react-native-root-toast": "^3.1.2",
     "react-native-shadow": "^1.2.2",
+    "react-native-side-menu": "^1.1.3",
     "react-native-svg": "^9.12.0",
     "react-native-vector-icons": "^6.5.0",
     "react-navigation": "^3.11.0"

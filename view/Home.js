@@ -5,182 +5,169 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, Alert, ImageBackground, StatusBar } from 'react-native';
+import {
+    StyleSheet, Text, View,
+    TouchableOpacity,
+    StatusBar, ScrollView
+} from 'react-native';
 import { WorkInfo } from "../api/api";
 import AsyncStorage from "@react-native-community/async-storage";
-import HeadBgImg from '../components/HeadBgImg';
-export default class Home extends Component {
+import Menu from '../components/Menu';
+import SideMenu from 'react-native-side-menu'
+import Header from '../components/Header';
+import IoniconsFeather from 'react-native-vector-icons/Feather';
+import Course from '../utils/Course';
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#f9f9f9',
+    },
+    avatar: {
+        width: 32,
+        height: 32,
+        borderRadius: 24,
+    },
+    title: {
+        color: "#fff",
+        fontSize: 16,
+        textShadowColor: "#ccc",
+        textShadowRadius: 4,
+        textShadowOffset: { width: 1, height: 1 },
+        fontWeight: '800'
+    },
+    action: {
+        width: '100%'
+    },
+    actionContainer: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-evenly'
+    },
+    p_item: { width: '40%', margin: 10, },
+    item: {
+        width: '100%',
+        padding: 10,
+        minHeight: 68,
+        backgroundColor: "#fff",
+        borderRadius: 6,
+        borderColor: '#f0f0f0',
+        borderWidth: StyleSheet.hairlineWidth,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    text: {
+        color: '#222c69'
+    }
+});
+
+const actions = [
+    { path: 'Curriculum', text: '课表', icon: 'github' }
+];
+
+class Home extends Component {
     static navigationOptions = {
         title: '首页',
-        header: null
     };
 
     constructor(props) {
         super(props);
-
         this.state = {
-            Failing: "0",
-            Illegal: "0",
-            absence: "0",
-            dorm: "0",
-            flunk: "0",
-            grade: "0",
-            score: "0",
-            study: "0",
-            truant: "0",
             loginName: ""
-        };
-
+        }
     }
+   
 
     async componentWillMount() {
+        Course.getWeek();
         StatusBar.setBarStyle('light-content');
-
-        try {
-            const { data } = await WorkInfo();
-
-            this.setState({ ...data });
-
-
-            const loginName = await AsyncStorage.getItem('loginName');
-
-            this.setState({ loginName })
-
-
-        } catch (e) {
-
-            console.log(e);
-
-            Alert.alert("出现错误，请重新登陆。");
-
-            this.props.navigation.navigate('Login');
-
-        }
-
     }
-
+    _onPressLogOut = async () => {
+        await AsyncStorage.setItem('logintime', '0');
+        this.props.navigation.navigate('Login');
+    }
+    _onPressGoPath = async (path) => {
+        path && this.props.navigation.navigate(path);
+    }
     render() {
-        const {
-            absence,
-            truant,
-            study,
-            Illegal,
-            Failing,
-            grade,
-            score,
-            flunk,
-            loginName
-        } = this.state;
         return (
             <View style={styles.container}>
+                <Header
+                    left={
+                        <TouchableOpacity onPress={this.props.onOpen}>
+                            <IoniconsFeather name='user' size={26} color='#fff' />
+                        </TouchableOpacity>
+                    }
+                    center={
+                        <Text style={styles.title}>应用中心</Text>
+                    }
+                    right={
+                        <TouchableOpacity onPress={this._onPressLogOut}>
+                            <IoniconsFeather name='log-out' size={26} color='#fff' />
+                        </TouchableOpacity>
+                    }
+                />
+                <ScrollView style={styles.action}>
 
-                <HeadBgImg/>
+                    <View style={styles.actionContainer}>
 
-                <View style={styles.head_avatar}>
-                    <Image source={{ uri: `http://xz.jvtc.jx.cn/JVTC_XG/DownLoad/Student/${loginName}.jpg` }}
-                        style={styles.head} />
-                    <Text style={styles.head_name}>{loginName}</Text>
-                </View>
-                <View style={styles.main}>
-                    <View style={[styles.item, styles.rowBorder]}>
-                        <Text style={styles.red}>{absence}</Text>
-                        <Text style={styles.item_text}>早操缺勤</Text>
+                        {
+                            actions.map(item => (
+                                <TouchableOpacity style={styles.p_item} key={item.path} onPress={() => { this._onPressGoPath(item.path) }}>
+                                    <View style={styles.item}>
+                                        <IoniconsFeather name={item.icon || 'meh'} size={26} color='#222c69' />
+                                        <Text style={styles.text}>{item.text}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            ))
+                        }
+
                     </View>
-                    <View style={styles.item}>
-                        <Text style={styles.red}>{truant}</Text>
-                        <Text style={styles.item_text}>旷课</Text>
-                    </View>
-                    <View style={[styles.item, styles.rowBorder]}>
-                        <Text style={styles.red}>{study}</Text>
-                        <Text style={styles.item_text}>晚自习缺勤</Text>
-                    </View>
-                    <View style={styles.item}>
-                        <Text style={styles.red}>{Illegal}</Text>
-                        <Text style={styles.item_text}>违纪</Text>
-                    </View>
-                    <View style={[styles.item, styles.rowBorder]}>
-                        <Text style={styles.red}>{Failing}</Text>
-                        <Text style={styles.item_text}>挂科</Text>
-                    </View>
-                    <View style={styles.item}>
-                        <Text style={styles.red}>{grade}</Text>
-                        <Text style={styles.item_text}>平均成绩</Text>
-                    </View>
-                    <View style={[styles.item, styles.noBBorder, styles.rowBorder]}>
-                        <Text style={styles.red}>{score}</Text>
-                        <Text style={styles.item_text}>学分</Text>
-                    </View>
-                    <View style={[styles.item, styles.noBBorder]}>
-                        <Text style={styles.red}>{flunk}</Text>
-                        <Text style={styles.item_text}>不及格</Text>
-                    </View>
-                </View>
+
+                </ScrollView>
             </View>
         );
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        position: 'relative',
-        flex: 1,
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        backgroundColor: '#f9f9f9',
-    },
-    head_avatar: {
-        margin: 60,
-        marginTop: 80,
-        width: 260,
-        height: 140,
-        borderRadius: 16,
-        backgroundColor: 'rgba(255,255,255,0.3)',
-        display: 'flex',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-    },
-    head_name: {
-        fontSize: 18,
-        color: '#ffffff',
-        fontWeight: '600'
-    },
-    head: {
-        width: 80, height: 80,
-        borderRadius: 40,
-    },
-    main: {
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        flex: 1,
-        width: '100%',
-        padding: 20,
-        marginTop: 30,
-        backgroundColor: '#f9f9f988'
-    },
-    item: {
-        width: '50%',
-        borderBottomWidth: 1,
-        borderColor: '#c8cad8',
-        padding: 6,
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    item_text: {
-        color: '#222c69',
-        fontWeight: '600',
-        fontSize: 18
-    },
-    noBBorder: {
-        borderBottomWidth: 0,
-    },
-    rowBorder: {
-        borderRightWidth: 1,
-    },
-    red: {
-        fontWeight: '600',
-        fontSize: 22,
-        color: '#222c69',
+
+export default class HomeS extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isOpen: false,
+            WorkInfo: { loginName: "", absence: "0", truant: "0", study: "0", Illegal: "0", Failing: "0", grade: "0", score: "0", flunk: "0", dorm: "" }
+        }
     }
-});
+    componentWillMount() {
+        this.handleGetData();
+    }
+    onMenuItemSelected = (isOpen = false) =>
+        this.setState({
+            isOpen,
+        });
+
+    handleGetData = async () => {
+        try {
+            const { data } = await WorkInfo();
+            const loginName = await AsyncStorage.getItem('loginName');
+            this.setState({
+                WorkInfo: { loginName, ...data }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    render() {
+        const menu = <Menu data={this.state.WorkInfo} />;
+        return (
+            <SideMenu menu={menu} isOpen={this.state.isOpen}>
+                <Home navigation={this.props.navigation} onOpen={() => { this.onMenuItemSelected(true) }} />
+            </SideMenu>
+        );
+    }
+}

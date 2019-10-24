@@ -9,7 +9,9 @@ import { StyleSheet, ImageBackground, Dimensions, Image, Text, View, Alert, Text
 import { login } from "../api/api";
 import AsyncStorage from "@react-native-community/async-storage";
 import { BoxShadow } from 'react-native-shadow';
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
+import CodePush from "react-native-code-push"; // 引入code-push
+import Toast from 'react-native-root-toast';
 
 const shadowOpt = {
     width: width - 60,
@@ -20,7 +22,7 @@ const shadowOpt = {
     opacity: 0.7,
     x: 0,
     y: 14,
-    style: { marginVertical: 5 }
+    // style: { marginVertical: 5 }
 };
 export default class Login extends Component {
     static navigationOptions = {
@@ -40,22 +42,62 @@ export default class Login extends Component {
         this.handleLoginNameChange = this.handleLoginNameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
     }
+    //如果有更新的提示
+    syncImmediate() {
+        CodePush.sync({
+            //安装模式
+            //ON_NEXT_RESUME 下次恢复到前台时
+            //ON_NEXT_RESTART 下一次重启时
+            //IMMEDIATE 马上更新
+            installMode: CodePush.InstallMode.IMMEDIATE,
+            //对话框
+            updateDialog: {
+                //是否显示更新描述
+                appendReleaseDescription: true,
+                //更新描述的前缀。 默认为"Description"
+                descriptionPrefix: "更新内容：",
+                //强制更新按钮文字，默认为continue
+                mandatoryContinueButtonLabel: "立即更新",
+                //强制更新时的信息. 默认为"An update is available that must be installed."
+                mandatoryUpdateMessage: "必须更新后才能使用",
+                //非强制更新时，按钮文字,默认为"ignore"
+                optionalIgnoreButtonLabel: '稍后',
+                //非强制更新时，确认按钮文字. 默认为"Install"
+                optionalInstallButtonLabel: '后台更新',
+                //非强制更新时，检查到更新的消息文本
+                optionalUpdateMessage: '有新版本了，是否更新？',
+                //Alert窗口的标题
+                title: '更新提示'
+            },
+        } ,
+        );
+    }
+
 
     async componentWillMount() {
 
+        CodePush.disallowRestart();//禁止重启
+        this.syncImmediate(); //开始检查更新
         //    这里处理 打开后 自动登陆
-        // this.props.navigation.navigate('About');
+        this.props.navigation.navigate('Home');
 
         const loginName = await AsyncStorage.getItem("loginName");
         const loginPass = await AsyncStorage.getItem("loginPass");
+        const logintime = await AsyncStorage.getItem("logintime");
+
         this.setState({
             loginName,
             loginPass
         });
+
+        if ((parseInt(logintime) || 0) + 1 * 60 * 60 * 1000 > Date.now()) {
+            this.props.navigation.navigate('Home');
+        }
     }
 
-
     async componentDidMount() {
+        CodePush.allowRestart();//在加载完了，允许重启
+
         StatusBar.setTranslucent(true);
         // StatusBar.setBackgroundColor("red");
         StatusBar.setBackgroundColor('transparent');
@@ -96,7 +138,9 @@ export default class Login extends Component {
                         </BoxShadow>
                     </View>
                 </View>
-
+                <View style={{ position: 'absolute', top: height - 60, width: '100%', textAlign: 'center' }}>
+                    <Text style={{ textAlign: 'center', fontSize: 14, color: '#69707f' }}>&copy;2019 计算机技术协会</Text>
+                </View>
             </View>
         );
     }
@@ -108,10 +152,10 @@ export default class Login extends Component {
 
         const { loginName, loginPass } = this.state;
 
-        if (!/^[1][0-9]{4,}$/.test(loginName)) {
-            return Alert.alert("请输入正确的学号");
+        if (!/^[0-9]{4,}$/.test(loginName)) {
+            return Alert.alert("请输入正确的学号!");
         } else if (!loginPass.length) {
-            return Alert.alert("请输入密码");
+            return Alert.alert("请输入密码!");
         }
 
         try {
@@ -121,7 +165,7 @@ export default class Login extends Component {
             });
             const { message } = await login(loginName, loginPass);
 
-            Alert.alert(message);
+            Toast.show(message, { opacity: 0.6 });
 
             this.props.navigation.navigate('Home');
 
@@ -133,6 +177,7 @@ export default class Login extends Component {
             AsyncStorage.setItem('info', "");
             AsyncStorage.setItem('activeNums', "");
             AsyncStorage.setItem('StuEnlightenRoomScore', "");
+            AsyncStorage.setItem('logintime', String(Date.now()));
 
         } catch (e) {
 
@@ -163,6 +208,7 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        minHeight: '100%',
         // justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: "#ffffff",
