@@ -5,13 +5,14 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, ImageBackground, Dimensions, Image, Text, View, Alert, TextInput, PixelRatio, TouchableHighlight, StatusBar } from 'react-native';
+import { StyleSheet, ImageBackground, Dimensions, Linking, Image, Text, View, Alert, TextInput, PixelRatio, TouchableHighlight, StatusBar } from 'react-native';
 import { login } from "../api/api";
 import AsyncStorage from "@react-native-community/async-storage";
 import { BoxShadow } from 'react-native-shadow';
 const { width, height } = Dimensions.get('window');
 import CodePush from "react-native-code-push"; // 引入code-push
 import Toast from 'react-native-root-toast';
+import { isAndroidV } from '../utils/Update';
 
 const shadowOpt = {
     width: width - 60,
@@ -73,9 +74,21 @@ export default class Login extends Component {
         );
     }
 
+    async updateApp(v) {
+        try {
+            const { flag, link, msg } = await isAndroidV(v, 'android');
+            if (flag) {
+                Alert.alert('有版本更新', msg || '是否更新', [
+                    { text: '确认', onPress: () => { Linking.openURL(link); } },
+                    { text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                ]);
+            }
+        } catch (error) {
+        }
+    }
 
     async componentWillMount() {
-
+        this.updateApp('1.0.2');
         CodePush.disallowRestart();//禁止重启
         this.syncImmediate(); //开始检查更新
         //    这里处理 打开后 自动登陆
@@ -95,7 +108,9 @@ export default class Login extends Component {
         }
     }
 
+
     async componentDidMount() {
+
         CodePush.allowRestart();//在加载完了，允许重启
 
         StatusBar.setTranslucent(true);

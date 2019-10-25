@@ -11,6 +11,7 @@ import getStringToColor from '../utils/getStringToColor';
 import Course from '../utils/Course';
 import AsyncStorage from "@react-native-community/async-storage";
 const { width, height } = Dimensions.get('window');
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const styles = StyleSheet.create({
   container: {
@@ -79,6 +80,9 @@ const styles = StyleSheet.create({
   item_info: {
     fontSize: 12,
     color: '#fff',
+  },
+  spinnerTextStyle: {
+    color: '#f000'
   }
 });
 
@@ -93,7 +97,8 @@ export class Curriculum extends Component {
       courses: [],
       week: {},
       week_day: day,
-      loginName: ""
+      loginName: "",
+      spinner: true
     };
   }
 
@@ -106,11 +111,16 @@ export class Curriculum extends Component {
     if (this.getData.stat === 1) return;
     this.getData.stat = 1;
 
+    this.setState({
+      spinner: true
+    });
+
     week = currentWeek && { ...this.state.week, currentWeek } || await Course.getWeek();
+    console.warn(week);
     if (week) {
       this.setState({ week });
       const courses = await Course.getCourseData(week.currentWeek, loginName);
-      this.setState({ courses });
+      this.setState({ courses, spinner: false });
     }
     this.getData.stat = 0;
 
@@ -137,6 +147,7 @@ export class Curriculum extends Component {
         this.setState({
           courses: JSON.parse(courses),
           week: JSON.parse(week || {}),
+          spinner: false,
         });
         return;
       } catch (error) { }
@@ -148,13 +159,16 @@ export class Curriculum extends Component {
         AsyncStorage.setItem(loginName + 'courses', JSON.stringify(this.state.courses));
         AsyncStorage.setItem(loginName + 'week', JSON.stringify(this.state.week));
         AsyncStorage.setItem(loginName + 'courses_time', Date.now().toString());
-
         return;
       } catch (error) {
+        this.getData.stat = 0;
         console.warn(error);
       }
       this.getData.stat = 0;
     }
+    this.setState({
+      spinner: false
+    });
     Alert.alert("好像出了点小问题，等会再试吧");
   }
   render() {
@@ -175,6 +189,12 @@ export class Curriculum extends Component {
               <Text style={styles.next_perv}>下一周</Text>
             </TouchableOpacity>
           }
+        />
+        {/* loading */}
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
         />
         {/* 主要内容块 */}
         <View style={styles.main}>

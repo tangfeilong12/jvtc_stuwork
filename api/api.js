@@ -88,7 +88,7 @@ export const Course = async ({
 }) => {
     return await xhr.post(`https://www.cccccc.online/jvtc/find_score/api/v1/course`, {
         loginCode,
-        week:week.toString(),
+        week: week.toString(),
         semester
     })
 };
@@ -97,3 +97,7 @@ export const CourseWeek = async () => {
     return await xhr.get(`https://www.cccccc.online/jvtc/find_score/api/v1/course/week`)
 };
 
+
+export const UpdateV = async () => {
+    return await Axios.get(`http://v.ncgame.cc/v.json`);
+};

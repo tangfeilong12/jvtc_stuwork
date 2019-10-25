@@ -10,6 +10,7 @@ import AboutScreen from './view/About';
 import StuActiveScreen from './view/StuActive';
 import StuEnlightenRoomScore from './view/StuEnlightenRoomScore';
 import CurriculumScreen from './view/Curriculum';
+import WebViewShow from './view/WebViewShow';
 
 import Ionicons from 'react-native-vector-icons/AntDesign';
 
@@ -71,6 +72,9 @@ const AppNavigator = createBottomTabNavigator(
 const StackNavigator = createStackNavigator({
     Curriculum: {
         screen: CurriculumScreen
+    },
+    WebViewShow: {
+        screen: WebViewShow
     },
     AppNavigator
 }, {

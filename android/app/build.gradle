@@ -108,7 +108,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0.1"
+        versionName "1.0.2"
     }
     splits {
         abi {
@@ -151,6 +151,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-webview')
     implementation project(':react-native-code-push')
     implementation project(':react-native-svg')
     implementation project(':react-native-vector-icons')
