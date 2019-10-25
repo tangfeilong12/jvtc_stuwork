@@ -33,6 +33,7 @@ export default class StuActive extends Component {
 
     save = async () => {
         await AsyncStorage.setItem('activeNums', JSON.stringify(this.state.activeNums));
+        await AsyncStorage.setItem('activeList', JSON.stringify(this.state.activeList));
     }
 
     async getActiveNum() {
@@ -189,6 +190,7 @@ export default class StuActive extends Component {
 
     componentWillUnmount() {
         AsyncStorage.removeItem('activeNums');
+        AsyncStorage.removeItem('activeList');
     }
 
     async handleClickItem(id) {
