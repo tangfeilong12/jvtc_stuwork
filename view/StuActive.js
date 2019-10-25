@@ -42,9 +42,12 @@ export default class StuActive extends Component {
             let activeNums;
             try {
                 activeNums = (JSON.parse(await AsyncStorage.getItem('activeNums')));
-
+                console.warn(activeNums);
                 if (!activeNums || typeof activeNums == "string") {
                     throw new Error('类型不匹配');
+                }
+                if(!Object.keys(activeNums).length){
+                    throw new Error('空');
                 }
 
             } catch (e) {
