@@ -79,7 +79,7 @@ export default class Login extends Component {
         CodePush.disallowRestart();//禁止重启
         this.syncImmediate(); //开始检查更新
         //    这里处理 打开后 自动登陆
-        this.props.navigation.navigate('Home');
+        // this.props.navigation.navigate('Home');
 
         const loginName = await AsyncStorage.getItem("loginName");
         const loginPass = await AsyncStorage.getItem("loginPass");
@@ -146,6 +146,10 @@ export default class Login extends Component {
     }
 
     async handleClick() {
+        // if(Date.now() >= new Date('2019-10-26 00:00:00').getTime()){
+        //     Alert.alert("测试时间已过，已停止使用!");
+        //     return;
+        // }
         if (this.state.btnStat === 1) {
             return;
         }

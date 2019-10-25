@@ -24,6 +24,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 20,
   },
+  next_perv: {
+    color: '#fff'
+  },
   main: { backgroundColor: "#fff", display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'space-between' },
   left_time: { height: '100%', width: 40, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' },
   lineStyle: { backgroundColor: '#ccc', height: StyleSheet.hairlineWidth, width: width * 2 },
@@ -88,34 +91,52 @@ export class Curriculum extends Component {
     }
     this.state = {
       courses: [],
-      week: '0',
-      week_day: day
+      week: {},
+      week_day: day,
+      loginName: ""
     };
   }
 
   static navigationOptions = {
     title: '课表',
   };
-  getData = async (loginName) => {
-    const week = await Course.getWeek();
+  getData = async (loginName, currentWeek) => {
+    if (currentWeek >= this.state.week.totalWeek) return;
+    if (currentWeek <= 0) return;
+    if (this.getData.stat === 1) return;
+    this.getData.stat = 1;
+
+    week = currentWeek && { ...this.state.week, currentWeek } || await Course.getWeek();
     if (week) {
-      this.setState({
-        week: week.currentWeek
-      });
+      this.setState({ week });
       const courses = await Course.getCourseData(week.currentWeek, loginName);
       this.setState({ courses });
     }
+    this.getData.stat = 0;
+
+  }
+  showCurrentInfo = async (course) => {
+    const { courseName, teacher, clazz, week, classRoom, building } = course;
+    Alert.alert(
+      courseName,
+      `上课教室：${classRoom}\n老师：${teacher}\n班级：${clazz}\n上课时间：${week}\n上课地点：${building}`
+    );
+
   }
   async componentWillMount() {
-    const loginName = await AsyncStorage.getItem('loginName')
+    const loginName = await AsyncStorage.getItem('loginName');
     const courses = await AsyncStorage.getItem(loginName + 'courses');
+    const week = await AsyncStorage.getItem(loginName + 'week');
     const courses_time = await AsyncStorage.getItem(loginName + 'courses_time');
-    const oldTime = new Date(courses_time);
-
+    const oldTime = new Date(parseInt(courses_time));
+    this.setState({
+      loginName
+    });
     if (new Date().getDate() === oldTime.getDate() && courses) {
       try {
         this.setState({
-          courses: JSON.parse(courses)
+          courses: JSON.parse(courses),
+          week: JSON.parse(week || {}),
         });
         return;
       } catch (error) { }
@@ -125,22 +146,34 @@ export class Curriculum extends Component {
       try {
         await this.getData(loginName);
         AsyncStorage.setItem(loginName + 'courses', JSON.stringify(this.state.courses));
-        AsyncStorage.setItem(loginName + 'courses_time', Date.now());
-        return ;
+        AsyncStorage.setItem(loginName + 'week', JSON.stringify(this.state.week));
+        AsyncStorage.setItem(loginName + 'courses_time', Date.now().toString());
+
+        return;
       } catch (error) {
         console.warn(error);
-        
-       }
+      }
+      this.getData.stat = 0;
     }
     Alert.alert("好像出了点小问题，等会再试吧");
   }
   render() {
-    const { courses, week, week_day } = this.state;
+    const { courses, week, week_day, loginName } = this.state;
     return (
       <View style={styles.container}>
         <Header
           center={
-            <Text style={styles.title}>第{week}周</Text>
+            <Text style={styles.title}>第{week.currentWeek}周</Text>
+          }
+          left={
+            <TouchableOpacity onPress={() => { this.getData(loginName, week.currentWeek - 1) }}>
+              <Text style={styles.next_perv}>上一周</Text>
+            </TouchableOpacity>
+          }
+          right={
+            <TouchableOpacity onPress={() => { this.getData(loginName, week.currentWeek + 1) }}>
+              <Text style={styles.next_perv}>下一周</Text>
+            </TouchableOpacity>
           }
         />
         {/* 主要内容块 */}
@@ -175,7 +208,7 @@ export class Curriculum extends Component {
                   <View key={index} style={{ flex: 1 }}>
                     {
                       item.map(course => (
-                        <TouchableOpacity key={Math.random().toString()} style={styles.week_day_item_box}>
+                        <TouchableOpacity key={Math.random().toString()} style={styles.week_day_item_box} onPress={() => { this.showCurrentInfo(course) }}>
 
                           <View style={[styles.week_day_item, course && { backgroundColor: getStringToColor(course.courseName) } || {}]}>
                             <Text style={styles.item_title}>{course && course.courseName}</Text>

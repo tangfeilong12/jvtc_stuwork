@@ -1,14 +1,15 @@
 import React from 'react';
-import { Dimensions, View, StyleSheet, ImageBackground } from 'react-native';
+import { Dimensions, View, StyleSheet, ImageBackground, StatusBar } from 'react-native';
 import PropTypes from 'prop-types';
 import { BoxShadow } from 'react-native-shadow';
 const { width } = Dimensions.get('window');
+const statusBarHeight = StatusBar.currentHeight;
 const styles = StyleSheet.create({
   head: {
     width: '100%',
-    height: 68,
+    height: 42 + statusBarHeight,
     // backgroundColor: '#FFD034',
-    paddingTop: 20,
+    paddingTop: statusBarHeight,
     textAlign: 'center',
     display: 'flex',
     flexDirection: 'row',
@@ -16,6 +17,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 10,
     paddingRight: 10,
+  },
+  bg: {
+    width: '100%', height: 42 + statusBarHeight
   },
   left: {
 
@@ -30,7 +34,7 @@ const styles = StyleSheet.create({
 
 const shadowOpt = {
   width: width,
-  height: 74,
+  height: 48 + statusBarHeight,
   color: "#222c69",
   border: 6,
   // radius: 25,
@@ -43,7 +47,7 @@ const Header = ({ left, right, center }) => {
 
   return (
     <BoxShadow setting={shadowOpt}>
-      <ImageBackground resizeMode='cover' source={require('../assets/img/home_top.png')} style={{ width: '100%', height: 68 }}>
+      <ImageBackground resizeMode='cover' source={require('../assets/img/home_top.png')} style={styles.bg}>
         <View style={styles.head}>
           <View style={styles.left}>
             {left}

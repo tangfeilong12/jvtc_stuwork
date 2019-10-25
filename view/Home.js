@@ -69,9 +69,7 @@ const actions = [
 ];
 
 class Home extends Component {
-    static navigationOptions = {
-        title: '首页',
-    };
+    
 
     constructor(props) {
         super(props);
@@ -135,6 +133,9 @@ class Home extends Component {
 
 
 export default class HomeS extends Component {
+    static navigationOptions = {
+        title: '首页',
+    };
     constructor(props) {
         super(props);
         this.state = {
