@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Alert, BackHandler } from 'react-native';
+import { View, Text, Alert, BackHandler, TouchableOpacity, Linking } from 'react-native';
 import { WebView } from 'react-native-webview';
 import Header from '../components/Header';
 import { isUrl } from '../utils/utils';
 
+import IoniconsFeather from 'react-native-vector-icons/Feather';
 export class WebViewShow extends Component {
   constructor(props) {
     super(props);
@@ -47,6 +48,9 @@ export class WebViewShow extends Component {
 
     return true;
   }
+  openUrl = () => {
+    this.uri && Linking.openURL(this.uri);
+  }
 
   render() {
 
@@ -55,6 +59,11 @@ export class WebViewShow extends Component {
         <Header
           center={
             <Text style={{ color: '#fff', fontSize: 18, fontWeight: '600' }}>{this.title}</Text>
+          }
+          right={
+            <TouchableOpacity onPress={this.openUrl}>
+              <IoniconsFeather name='eye' size={22} color='#fff' />
+            </TouchableOpacity>
           }
         />
         <WebView

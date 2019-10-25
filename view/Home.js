@@ -65,8 +65,9 @@ const styles = StyleSheet.create({
 
 const actions = [
     { path: 'Curriculum', text: '课表', icon: 'github' },
-    { path: 'WebViewShow', text: '报修', icon: 'frown', params: { title: '九职报修系统',uri:"http://sso.jvtc.jx.cn/cas/login" } },
-    { path: 'WebViewShow', text: '博客', icon: 'octagon', params: { title: '不才的博客',uri:"http://blog.ncgame.cc" } },
+    { path: 'WebViewShow', text: '报修', icon: 'frown', params: { title: '九职报修系统', uri: "http://sso.jvtc.jx.cn/cas/login" } },
+    { path: 'WebViewShow', text: '不才的博客', icon: 'octagon', params: { title: '不才的博客', uri: "http://blog.ncgame.cc" } },
+    { path: 'WebViewShow', text: '沐凉的博客', icon: 'hexagon', params: { title: '沐凉的博客', uri: "https://blog.cccccc.online/" } },
 ];
 
 class Home extends Component {
@@ -92,7 +93,7 @@ class Home extends Component {
         return (
             <View style={styles.container}>
                 <Header
-                    left={  
+                    left={
                         <TouchableOpacity onPress={this.props.onOpen}>
                             <IoniconsFeather name='user' size={26} color='#fff' />
                         </TouchableOpacity>

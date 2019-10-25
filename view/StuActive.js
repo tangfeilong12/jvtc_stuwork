@@ -26,14 +26,13 @@ export default class StuActive extends Component {
     }
 
     componentWillMount() {
-
         StatusBar.setBarStyle('light-content');
         this.getActiveList.call(this);
         this.getActiveNum.call(this);
     }
 
-    save = () => {
-        AsyncStorage.setItem('activeNums', JSON.stringify(this.state.activeNums));
+    save = async () => {
+        await AsyncStorage.setItem('activeNums', JSON.stringify(this.state.activeNums));
     }
 
     async getActiveNum() {
@@ -52,15 +51,12 @@ export default class StuActive extends Component {
                 activeNums = (await MyActionGetNum()).data;
             }
 
-            this.save();
+            await this.save();
             this.setState({ activeNums: activeNums || {} });
 
-
         } catch (e) {
-
             console.log(e);
             Alert.alert(e.message);
-
         }
     }
 
@@ -189,6 +185,10 @@ export default class StuActive extends Component {
 
             </View>
         );
+    }
+
+    componentWillUnmount() {
+        AsyncStorage.removeItem('activeNums');
     }
 
     async handleClickItem(id) {
