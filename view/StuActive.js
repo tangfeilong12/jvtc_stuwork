@@ -32,6 +32,10 @@ export default class StuActive extends Component {
         this.getActiveNum.call(this);
     }
 
+    save = () => {
+        AsyncStorage.setItem('activeNums', JSON.stringify(this.state.activeNums));
+    }
+
     async getActiveNum() {
         try {
 
@@ -48,10 +52,9 @@ export default class StuActive extends Component {
                 activeNums = (await MyActionGetNum()).data;
             }
 
-
+            this.save();
             this.setState({ activeNums: activeNums || {} });
 
-            AsyncStorage.setItem('activeNums', JSON.stringify(activeNums));
 
         } catch (e) {
 
@@ -195,16 +198,17 @@ export default class StuActive extends Component {
             const { activeList } = this.state;
 
             const active = activeList.find(item => item.id === id);
-
-            if (active.stat.tirm() === '未评价') {
+            console.warn(active);
+            if (active.stat.indexOf('未评价') !== -1) {
 
                 active.stat = '已经评价';
 
                 this.setState({ activeList: JSON.parse(JSON.stringify(activeList)) });
-
+                this.save();
                 Alert.alert("评论成功");
 
                 await AppAction(active.id);
+
             }
         } catch (e) {
             console.log(e)

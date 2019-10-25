@@ -47,9 +47,6 @@ xhr.interceptors.request.use(async config => {
 
 
 export const login = async (loginName, loginPass = '') => {
-    if (!/^[0-9]{9}$/.test(loginName) || !loginPass.length) {
-        throw new Error("用户名密码不正确")
-    }
     return await xhr.post(`/login`, {
         "loginName": loginName,
         "loginPwd": loginPass
