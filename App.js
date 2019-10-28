@@ -15,6 +15,7 @@ import WebViewShow from './view/WebViewShow';
 import Ionicons from 'react-native-vector-icons/AntDesign';
 
 import React from "react";
+import AboutDev from "./view/AboutDev";
 
 const AppNavigator = createBottomTabNavigator(
     {
@@ -75,6 +76,9 @@ const StackNavigator = createStackNavigator({
     },
     WebViewShow: {
         screen: WebViewShow
+    },
+    AboutDev: {
+        screen: AboutDev
     },
     AppNavigator
 }, {

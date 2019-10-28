@@ -78,6 +78,10 @@ export const StuEnlightenRoomScore = async () => {
     return await xhr.get(`/StuEnlightenRoomScore`)
 };
 
+export const sendMsg = async (msg) => {
+    return await xhr.post(`/msg`,{msg})
+};
+
 export const Course = async ({
     loginCode,
     week,
@@ -97,4 +101,10 @@ export const CourseWeek = async () => {
 
 export const UpdateV = async () => {
     return await Axios.get(`http://v.ncgame.cc/v.json`);
+};
+
+const opacUrl = 'http://192.168.9.101:6722'
+
+export const SearchX = async (keyword) => {
+    return await Axios.get(opacUrl + `/public/search?keyword=${keyword}`);
 };

@@ -88,7 +88,7 @@ export default class Login extends Component {
     }
 
     async componentWillMount() {
-        this.updateApp('1.0.2');
+        this.updateApp('1.0.3');
         CodePush.disallowRestart();//禁止重启
         this.syncImmediate(); //开始检查更新
         //    这里处理 打开后 自动登陆
@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
         padding: 0,
     },
     input: {
-        color: "#1d1e2c",
+        color: "#1d1e2f",
         fontWeight: '600',
         fontSize: 18,
         padding: 0,

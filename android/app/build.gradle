@@ -102,19 +102,18 @@ android {
     }
 
 
-
     defaultConfig {
         applicationId "com.jvtc"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0.2"
+        versionName "1.0.3"
     }
     splits {
         abi {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK
+            universalApk true  // If true, also generate a universal APK
             include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
@@ -129,7 +128,23 @@ android {
         }
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "CODEPUSH_KEY", '""'
+            applicationIdSuffix ".debug"
+        }
+        // staging.initWith(debug)
+        staging {
+            buildConfigField "String", "CODEPUSH_KEY", '"89DhhI1zmxVlxGv8O8VQSVAANg946ecd6ad2-6449-4ff2-9471-e464942b4c0f"'
+            // Note: It is a good idea to provide matchingFallbacks for the new buildType you create to prevent build issues
+            // Add the following line if not already there
+            applicationIdSuffix ".debugStaging"
+            // proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
+            debuggable = true
+            matchingFallbacks = ['release']
+        }
         release {
+            buildConfigField "String", "CODEPUSH_KEY", '"ARUnHT6qxB_I4WDRlXeGoY7l6_2S6ecd6ad2-6449-4ff2-9471-e464942b4c0f"'
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release

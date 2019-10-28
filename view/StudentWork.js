@@ -10,10 +10,7 @@ import {
     TouchableOpacity,
     StatusBar, ScrollView
 } from 'react-native';
-import { WorkInfo } from "../api/api";
 import AsyncStorage from "@react-native-community/async-storage";
-import Menu from '../components/Menu';
-import SideMenu from 'react-native-side-menu'
 import Header from '../components/Header';
 import IoniconsFeather from 'react-native-vector-icons/Feather';
 
@@ -70,7 +67,6 @@ const actions = [
 ];
 
 class Home extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -129,44 +125,4 @@ class Home extends Component {
     }
 }
 
-
-export default class HomeS extends Component {
-    static navigationOptions = {
-        title: '首页',
-    };
-    constructor(props) {
-        super(props);
-        this.state = {
-            isOpen: false,
-            WorkInfo: { loginName: "", absence: "0", truant: "0", study: "0", Illegal: "0", Failing: "0", grade: "0", score: "0", flunk: "0", dorm: "" }
-        }
-    }
-    componentWillMount() {
-        this.handleGetData();
-    }
-    onMenuItemSelected = (isOpen = false) =>
-        this.setState({
-            isOpen,
-        });
-
-    handleGetData = async () => {
-        try {
-            const { data } = await WorkInfo();
-            const loginName = await AsyncStorage.getItem('loginName');
-            this.setState({
-                WorkInfo: { loginName, ...data }
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    render() {
-        const menu = <Menu data={this.state.WorkInfo} />;
-        return (
-            <SideMenu menu={menu} isOpen={this.state.isOpen}>
-                <Home navigation={this.props.navigation} onOpen={() => { this.onMenuItemSelected(true) }} />
-            </SideMenu>
-        );
-    }
-}
+export default Home;
