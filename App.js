@@ -9,8 +9,12 @@ import LoginScreen from './view/Login';
 import AboutScreen from './view/About';
 import StuActiveScreen from './view/StuActive';
 import StuEnlightenRoomScore from './view/StuEnlightenRoomScore';
+import StuWork from './view/StuWork';
 import CurriculumScreen from './view/Curriculum';
 import WebViewShow from './view/WebViewShow';
+import OpacIndex from './view/opac/Index';
+import OpacLogin from './view/opac/Login';
+import OpacSearch from './view/opac/Search';
 
 import Ionicons from 'react-native-vector-icons/AntDesign';
 
@@ -22,15 +26,18 @@ const AppNavigator = createBottomTabNavigator(
         Home: {
             screen: HomeScreen
         },
-        StuActive: {
-            screen: StuActiveScreen
+        StuWork: {
+            screen: StuWork
         },
-        StuEnlightenRoomScore: {
-            screen: StuEnlightenRoomScore
-        },
-        About: {
-            screen: AboutScreen
+        OpacIndex: {
+            screen: OpacIndex
         }
+        // StuActive: {
+        //     screen: StuActiveScreen
+        // },
+        // StuEnlightenRoomScore: {
+        //     screen: StuEnlightenRoomScore
+        // },
     },
     {
         defaultNavigationOptions: ({ navigation }) => ({
@@ -46,10 +53,12 @@ const AppNavigator = createBottomTabNavigator(
                     iconName = `ios-options`;
                 } else if (routeName === 'About') {
                     iconName = `user`;
-                } else if (routeName === 'StuActive') {
-                    iconName = `minussquareo`;
+                } else if (routeName === 'StuWork') {
+                    iconName = `solution1`;
                 } else if (routeName === 'StuEnlightenRoomScore') {
                     iconName = `calendar`;
+                } else if (routeName === 'OpacIndex') {
+                    iconName = `book`;
                 }
                 // You can return any component that you like here!
                 return <IconComponent name={iconName} size={26} color={tintColor} />;
@@ -79,6 +88,21 @@ const StackNavigator = createStackNavigator({
     },
     AboutDev: {
         screen: AboutDev
+    },
+    StuActive: {
+        screen: StuActiveScreen
+    },
+    StuEnlightenRoomScore: {
+        screen: StuEnlightenRoomScore
+    },
+    OpacLogin: {
+        screen: OpacLogin
+    },
+    OpacSearch: {
+        screen: OpacSearch
+    },
+    About: {
+        screen: AboutScreen
     },
     AppNavigator
 }, {

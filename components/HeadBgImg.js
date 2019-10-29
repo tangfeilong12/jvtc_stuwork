@@ -37,5 +37,6 @@ const styles = StyleSheet.create({
         height: 300,
         top: -10,
         left: 0,
+        zIndex:-1
     },
 });

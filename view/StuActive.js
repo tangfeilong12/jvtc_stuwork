@@ -5,10 +5,12 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, ScrollView, View, Alert, FlatList, TouchableHighlight, StatusBar } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, Alert, FlatList, TouchableHighlight,TouchableOpacity, StatusBar } from 'react-native';
 import { AppAction, getStuActive, MyActionGetNum } from "../api/api";
 import AsyncStorage from "@react-native-community/async-storage";
 import HeadBgImg from '../components/HeadBgImg';
+import Header from '../components/Header';
+import IoniconsFeather from 'react-native-vector-icons/Feather';
 export default class StuActive extends Component {
     static navigationOptions = {
         title: '素拓活动列表',
@@ -46,7 +48,7 @@ export default class StuActive extends Component {
                 if (!activeNums || typeof activeNums == "string") {
                     throw new Error('类型不匹配');
                 }
-                if(!Object.keys(activeNums).length){
+                if (!Object.keys(activeNums).length) {
                     throw new Error('空');
                 }
 
@@ -97,8 +99,18 @@ export default class StuActive extends Component {
         const { handleClickItem } = this;
         return (
             <View style={styles.container}>
+                <Header
+                    left={
+                        <TouchableOpacity onPress={() => { this.props.navigation.goBack(); }}>
+                            <IoniconsFeather name='chevron-left' size={26} color='#fff' />
+                        </TouchableOpacity>
+                    }
+                    center={
+                        <Text style={{ color: '#fff', fontSize: 18 }}>素拓活动</Text>
+                    }
+                />
                 <HeadBgImg />
-                <ScrollView>
+                <ScrollView  style={{ flex: 1 }}>
                     <View style={[styles.MyActionGetNum, styles.topSize]}>
                         <Text style={styles.title}>素拓分各类得分</Text>
                         <View style={styles.calss_}>
@@ -225,9 +237,10 @@ export default class StuActive extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#f9f9f9',
+        flex:1,
     },
     topSize: {
-        marginTop: 40
+        marginTop: 0
     },
     MyActionGetNum: {
         borderRadius: 8,

@@ -5,11 +5,13 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, ScrollView, View, Alert, StatusBar } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, Alert, StatusBar,TouchableOpacity } from 'react-native';
 import { user_info } from "../api/api";
 
 import AsyncStorage from '@react-native-community/async-storage';
 import HeadBgImg from '../components/HeadBgImg';
+import Header from '../components/Header';
+import IoniconsFeather from 'react-native-vector-icons/Feather';
 
 const keyMap = new Map();
 
@@ -149,8 +151,18 @@ export default class About extends Component {
         } = this.state;
         return (
             <View style={styles.container}>
+                <Header
+                    left={
+                        <TouchableOpacity onPress={() => { this.props.navigation.goBack(); }}>
+                            <IoniconsFeather name='chevron-left' size={26} color='#fff' />
+                        </TouchableOpacity>
+                    }
+                    center={
+                        <Text style={{ color: '#fff', fontSize: 18 }}>素拓活动</Text>
+                    }
+                />
                 <HeadBgImg />
-                <ScrollView>
+                <ScrollView style={{felx:1}}>
                     <View style={[styles.item_warp, styles.topSize]}>
                         <View>
                             <Text style={styles.title}>{keyMap.get('basicsinfo')}</Text>
@@ -184,9 +196,10 @@ export default class About extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#f9f9f9',
+        flex:1,
     },
     topSize: {
-        marginTop: 40
+        marginTop: 0
     },
     sectionHeader: {
         paddingTop: 2,

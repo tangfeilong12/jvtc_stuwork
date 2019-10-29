@@ -10,7 +10,6 @@ import {
     TouchableOpacity,
     StatusBar, ScrollView
 } from 'react-native';
-import AsyncStorage from "@react-native-community/async-storage";
 import Header from '../components/Header';
 import IoniconsFeather from 'react-native-vector-icons/Feather';
 
@@ -61,12 +60,16 @@ const styles = StyleSheet.create({
 });
 
 const actions = [
-    { path: 'Curriculum', text: '课表', icon: 'github' },
-    { path: 'WebViewShow', text: '校园设备报修', icon: 'frown', params: { title: '九职报修系统', uri: "http://sso.jvtc.jx.cn/cas/login" } },
-    { path: 'AboutDev', text: '关于开发', icon: 'octagon' },
+    { path: 'StuActive', text: '素拓活动', icon: 'calendar' },
+    { path: 'StuEnlightenRoomScore', text: '查寝情况', icon: 'trello' },
+    { path: 'About', text: '个人详细信息', icon: 'meh' },
 ];
 
 class Home extends Component {
+    static navigationOptions = {
+        title: '学工平台',
+        header: null
+    };
     constructor(props) {
         super(props);
         this.state = {
@@ -77,10 +80,7 @@ class Home extends Component {
     async componentWillMount() {
         StatusBar.setBarStyle('light-content');
     }
-    _onPressLogOut = async () => {
-        await AsyncStorage.setItem('logintime', '0');
-        this.props.navigation.navigate('Login');
-    }
+  
     _onPressGoPath = async (path, params = {}) => {
         path && this.props.navigation.navigate(path, params);
     }
@@ -88,24 +88,12 @@ class Home extends Component {
         return (
             <View style={styles.container}>
                 <Header
-                    left={
-                        <TouchableOpacity onPress={this.props.onOpen}>
-                            <IoniconsFeather name='user' size={26} color='#fff' />
-                        </TouchableOpacity>
-                    }
                     center={
-                        <Text style={styles.title}>应用中心</Text>
-                    }
-                    right={
-                        <TouchableOpacity onPress={this._onPressLogOut}>
-                            <IoniconsFeather name='log-out' size={26} color='#fff' />
-                        </TouchableOpacity>
+                        <Text style={styles.title}>学工平台相关</Text>
                     }
                 />
                 <ScrollView style={styles.action}>
-
                     <View style={styles.actionContainer}>
-
                         {
                             actions.map(item => (
                                 <TouchableOpacity style={styles.p_item} key={item.text} onPress={() => { this._onPressGoPath(item.path, item.params) }}>
@@ -116,9 +104,7 @@ class Home extends Component {
                                 </TouchableOpacity>
                             ))
                         }
-
                     </View>
-
                 </ScrollView>
             </View>
         );

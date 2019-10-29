@@ -122,6 +122,7 @@ export class Curriculum extends Component {
       const courses = await Course.getCourseData(week.currentWeek, loginName);
       this.setState({ courses, spinner: false });
     }
+    
     this.getData.stat = 0;
 
   }

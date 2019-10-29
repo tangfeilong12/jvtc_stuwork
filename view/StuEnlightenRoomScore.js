@@ -5,11 +5,12 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, ScrollView, View, Alert, FlatList, StatusBar } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, Alert, FlatList, StatusBar,TouchableOpacity } from 'react-native';
 import { StuEnlightenRoomScore } from "../api/api";
 import AsyncStorage from "@react-native-community/async-storage";
 import HeadBgImg from '../components/HeadBgImg';
-
+import Header from '../components/Header';
+import IoniconsFeather from 'react-native-vector-icons/Feather';
 
 export default class StuEnlightenRoomScoreObj extends Component {
     static navigationOptions = {
@@ -62,9 +63,19 @@ export default class StuEnlightenRoomScoreObj extends Component {
         const { list } = this.state;
         return (
             <View style={styles.container}>
-                <HeadBgImg/>
-                <ScrollView>
-                    <View style={[styles.MyActionGetNum,styles.topSize]}>
+                <Header
+                    left={
+                        <TouchableOpacity onPress={() => { this.props.navigation.goBack(); }}>
+                            <IoniconsFeather name='chevron-left' size={26} color='#fff' />
+                        </TouchableOpacity>
+                    }
+                    center={
+                        <Text style={{ color: '#fff', fontSize: 18 }}>素拓活动</Text>
+                    }
+                />
+                <HeadBgImg />
+                <ScrollView style={{flex:1}}>
+                    <View style={[styles.MyActionGetNum, styles.topSize]}>
                         <Text style={styles.title}>查寝列表</Text>
                         <FlatList
                             data={list}
@@ -119,9 +130,10 @@ const styles = StyleSheet.create({
     container: {
         // padding: 10,
         backgroundColor: '#f0f0f0',
+        flex:1,
     },
     topSize: {
-        marginTop: 40
+        marginTop: 0
     },
     MyActionGetNum: {
         borderRadius: 8,
