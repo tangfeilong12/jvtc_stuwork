@@ -39,5 +39,25 @@ export default StyleSheet.create({
   },
   spinnerTextStyle: {
     color: '#f000'
+  },
+  item_title: {
+    color: '#000', fontSize: 16, fontWeight: '700'
+  },
+  item_subhead: {
+    marginTop: 4, color: '#333', fontWeight: '700'
+  },
+  item_info: {
+    marginTop: 4
+  },
+  item_style: {
+    padding: 20,
+    marginBottom: 20,
+    width: '100%',
+    flex: 1,
+    borderColor: '#fff7',
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: "#f0f0f0"
   }
 });

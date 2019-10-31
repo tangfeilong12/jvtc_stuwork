@@ -9,6 +9,7 @@ const xhr = Axios.create({
     withCredentials: true
 });
 
+
 xhr.interceptors.response.use(async response => {
     const data = response.data;
     if (data.code !== 200) {
@@ -20,7 +21,7 @@ xhr.interceptors.response.use(async response => {
                 await AsyncStorage.setItem('opac_token', data.data.token);
             }
         } catch (e) {
-            console.warn(e,e.message)
+            console.warn(e, e.message)
         }
     }
 
@@ -39,11 +40,11 @@ xhr.interceptors.request.use(async config => {
     }
     config.withCredentials = true; // 允许携带token ,这个是解决跨域产生的相关问题
     token && (config.headers.authorization = "Bearer " + token);
-
+    
     return config;
 },
     error => {
-        return Promise.reject(error);
+        return Promise.reject(error)
     });
 
 
@@ -60,6 +61,10 @@ export const getCode = async () => {
     return await xhr.get(`/login/code`);
 };
 
-export const search = async (keyword) => {
-    return await xhr.get(`/public/search?keyword=${keyword}`);
+export const search = (keyword) => {
+    return xhr.get(`/public/search?keyword=${keyword}`);
+};
+
+export const getDetail = (id) => {
+    return xhr.get(`public/search/detail?id=${id}`);
 };

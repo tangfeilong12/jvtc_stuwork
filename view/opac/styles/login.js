@@ -51,5 +51,8 @@ export default StyleSheet.create({
     textAlignVertical: 'center',
     color: "#fff",
     fontWeight: '700'
+  },
+  btnDs:{
+    opacity:0.4
   }
 });

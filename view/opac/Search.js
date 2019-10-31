@@ -7,25 +7,8 @@ const { width } = Dimensions.get('window');
 import IoniconsFeather from 'react-native-vector-icons/Feather';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-root-toast';
-import { search } from './api';
-
-const shadowOpt = {
-  width: width - 30,
-  height: 160,
-  color: "#fff",
-  border: 1,
-  radius: 4,
-  opacity: 0.8,
-  x: 0,
-  y: -6,
-  style: {
-    // paddingBottom: 6,
-    marginTop: 20,
-    // padding: 20,
-    borderColor: '#fff7',
-  }
-};
-
+import { search, getDetail } from './api';
+const hisList = new Map();
 export default class Index extends Component {
   static navigationOptions = {
     title: '书籍查询',
@@ -54,11 +37,17 @@ export default class Index extends Component {
     });
     // 获取数据，并渲染
     try {
+      console.warn(1);
+      
       const { data } = await search(keyword);
+      console.warn(3);
       this.setState({
         list: data
       });
+
+      console.warn(4);
     } catch (error) {
+      console.warn(5);
       Toast.show(error.message || '出现问题', { opacity: 0.5 })
     } finally {
       this.setState({
@@ -66,12 +55,39 @@ export default class Index extends Component {
       });
     }
   }
+  _showDetail = async (id) => {
+    try {
+      const data = hisList.get(id) || (await getDetail(id)).data;
+      hisList.set(id, data);
+      const info = data.reduce((a, b) => {
+        return a + b.reduce((a1, b1) => {
+          return a1 + b1 + ' ';
+        }, '') + '\n';
+      }, '');
+      Alert.alert("细节", info);
+    } catch (error) {
+      console.warn(error);
+    }
+  }
   _changeKeyWord = (text) => {
     this.setState({
       keyword: text
     })
   }
-
+  _showList = () => {
+    return this.state.list.map(item => {
+      return (
+        <View style={styles.item_style} key={item.id} >
+          <TouchableOpacity style={{ flex: 1 }} onPress={() => { this._showDetail(item.id) }}>
+            <Text style={styles.item_title}>{item.title}</Text>
+            <Text style={styles.item_subhead}>当前总数：{item.stat && item.stat.allCount || 0} 当前可借：{item.stat && item.stat.canCount || 0}</Text>
+            <Text style={styles.item_info}>{item.where}</Text>
+            <Text style={styles.item_info}>{item.author}</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    });
+  }
   render() {
     return (
       <LinearGradient start={{ x: 0.0, y: 0.3 }} end={{ x: 1, y: 0 }} colors={['#a7afff', '#f39fff']} style={styles.MainlinearGradient}>
@@ -79,6 +95,7 @@ export default class Index extends Component {
         <View style={styles.container}>
           {/* loading */}
           <Spinner
+            cancelable={true}
             visible={this.state.spinner}
             textContent={'Loading...'}
             textStyle={styles.spinnerTextStyle}
@@ -98,11 +115,11 @@ export default class Index extends Component {
           </LinearGradient>
 
           <ScrollView style={{ flex: 1 }}>
-            <View style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+            <View style={{ flex: 1, display: 'flex', alignItems: 'center', margin: 20 }}>
 
-              <BoxShadow setting={shadowOpt}>
-
-              </BoxShadow>
+              {
+                this._showList()
+              }
 
             </View>
           </ScrollView>

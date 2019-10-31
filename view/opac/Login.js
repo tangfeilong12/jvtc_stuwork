@@ -8,6 +8,7 @@ const statusBarHeight = StatusBar.currentHeight;
 import Toast from 'react-native-root-toast';
 import { getCode, login } from './api'
 import IoniconsFeather from 'react-native-vector-icons/Feather';
+import AsyncStorage from '@react-native-community/async-storage';
 const shadowOpt = {
   width: width - 50,
   height: 350,
@@ -42,6 +43,7 @@ const shadowOptBack = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 20
   }
 };
 
@@ -55,13 +57,14 @@ export class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      btnStat: false,
+      btnStat: 0,
       username: "",
       password: "",
       code: '',
       key: '',
       imgBase64: ''
     }
+    this.props.navigation.navigate('OpacInfo');
   }
 
   _getCodeData = async () => {
@@ -79,7 +82,7 @@ export class Login extends Component {
       });
       this._getCodeData.num = 0;
       this._getCodeData.ing = false;
-      
+
     } catch (error) {
       this._getCodeData.ing = false;
       this._getCodeData.num += 1;
@@ -89,12 +92,25 @@ export class Login extends Component {
       await this._getCodeData();
     }
   }
-
+  initUser = async () => {
+    const username = await AsyncStorage.getItem('opac_username');
+    const password = await AsyncStorage.getItem('opac_password');
+    this.setState({
+      username,
+      password
+    });
+  }
   componentDidMount() {
     this._getCodeData();
+    this.initUser();
   }
 
   _changeUsername = (text) => {
+    if (text.length === 0) {
+      this.setState({
+        password: ''
+      });
+    }
     this.setState({
       username: text
     });
@@ -122,16 +138,25 @@ export class Login extends Component {
     if (!/^[0-9]+$/.test(username) || !password) {
       return Alert.alert("账号密码存在问题");
     }
-    if (this.handleSubmit.ing) return;
+    if (this.state.btnStat) return;
     try {
-      this.handleSubmit.ing = true;
+      this.setState({
+        btnStat: 1
+      });
       await login(username, password, code, key);
       Toast.show('登陆成功', { opacity: 0.6 });
+      // 保存数据
+      await AsyncStorage.setItem('opac_username', username);
+      await AsyncStorage.setItem('opac_password', password);
+      // TODO 跳转到个人页面
+      this.props.navigation.navigate('OpacInfo');
     } catch (error) {
       this._getCodeData();
       return Alert.alert("登陆错误", error.message);
     } finally {
-      this.handleSubmit.ing = false;
+      this.setState({
+        btnStat: 0
+      });
     }
   }
 

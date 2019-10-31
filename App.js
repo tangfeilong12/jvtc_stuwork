@@ -2,6 +2,7 @@ import {
     createSwitchNavigator,
     createAppContainer,
     createBottomTabNavigator,
+    createMaterialTopTabNavigator,
     createStackNavigator
 } from "react-navigation";
 import HomeScreen from './view/Home';
@@ -15,6 +16,9 @@ import WebViewShow from './view/WebViewShow';
 import OpacIndex from './view/opac/Index';
 import OpacLogin from './view/opac/Login';
 import OpacSearch from './view/opac/Search';
+import OpacInfo from './view/opac/Info';
+import OpacBookList from './view/opac/BookList';
+
 
 import Ionicons from 'react-native-vector-icons/AntDesign';
 
@@ -79,6 +83,28 @@ const AppNavigator = createBottomTabNavigator(
     }
 );
 
+const TopTabNavs = createMaterialTopTabNavigator({
+    OpacBookList: {
+        screen: OpacBookList
+    },
+    OpacInfo: {
+        screen: OpacInfo
+    },
+}, {
+    backBehavior: "none",
+    tabBarOptions: {
+        // inactiveTintColor:'#0f0',
+        activeTintColor: '#fff',
+        labelStyle:{
+            fontWeight: "800",
+        },
+        style: {
+            backgroundColor: '#a7afff',
+        },
+    },
+});
+
+
 const StackNavigator = createStackNavigator({
     Curriculum: {
         screen: CurriculumScreen
@@ -104,7 +130,8 @@ const StackNavigator = createStackNavigator({
     About: {
         screen: AboutScreen
     },
-    AppNavigator
+    AppNavigator,
+    TopTabNavs
 }, {
     initialRouteName: "AppNavigator",
     headerMode: "none"
