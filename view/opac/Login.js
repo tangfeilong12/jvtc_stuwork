@@ -92,10 +92,11 @@ export class Login extends Component {
     }
   }
   initUser = async () => {
+    const loginName = await AsyncStorage.getItem('loginName');
     const username = await AsyncStorage.getItem('opac_username');
     const password = await AsyncStorage.getItem('opac_password');
     this.setState({
-      username,
+      username: username || loginName,
       password
     });
   }
@@ -148,7 +149,7 @@ export class Login extends Component {
       await AsyncStorage.setItem('opac_username', username);
       await AsyncStorage.setItem('opac_password', password);
       // TODO 跳转到个人页面
-      this.props.navigation.navigate('OpacInfo');
+      this.props.navigation.navigate('OpacBookList');
     } catch (error) {
       this._getCodeData();
       return Alert.alert("登陆错误", error.message);
