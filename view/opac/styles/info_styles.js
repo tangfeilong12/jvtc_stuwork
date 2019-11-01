@@ -55,6 +55,7 @@ export default StyleSheet.create({
     opacity: 0.4
   },
   item_main_title: {
+    marginBottom: 10,
     paddingLeft: 4, paddingRight: 4, borderBottomColor: '#eee', borderBottomWidth: StyleSheet.hairlineWidth, width: '100%', height: 40, display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'
   },
   item_main_li: {
