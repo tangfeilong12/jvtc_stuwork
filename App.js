@@ -5,6 +5,7 @@ import {
     createMaterialTopTabNavigator,
     createStackNavigator
 } from "react-navigation";
+import { StatusBar } from 'react-native';
 import HomeScreen from './view/Home';
 import LoginScreen from './view/Login';
 import AboutScreen from './view/About';
@@ -93,13 +94,17 @@ const TopTabNavs = createMaterialTopTabNavigator({
 }, {
     backBehavior: "none",
     tabBarOptions: {
-        // inactiveTintColor:'#0f0',
-        activeTintColor: '#fff',
-        labelStyle:{
+        inactiveTintColor:'#666',
+        indicatorStyle: {
+            backgroundColor: '#f39fff',
+        },
+        activeTintColor: '#f39fff',
+        labelStyle: {
             fontWeight: "800",
         },
         style: {
-            backgroundColor: '#a7afff',
+            paddingTop: StatusBar.currentHeight / 2,
+            backgroundColor: '#fff',
         },
     },
 });

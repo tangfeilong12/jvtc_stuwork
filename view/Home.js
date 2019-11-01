@@ -80,7 +80,10 @@ class Home extends Component {
 
     async componentWillMount() {
         StatusBar.setBarStyle('light-content');
+        // TODO 记得测试用
+        this.props.navigation.navigate('OpacLogin');
     }
+    
     _onPressLogOut = async () => {
         await AsyncStorage.setItem('logintime', '0');
         this.props.navigation.navigate('Login');

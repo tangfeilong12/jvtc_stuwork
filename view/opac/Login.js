@@ -64,7 +64,6 @@ export class Login extends Component {
       key: '',
       imgBase64: ''
     }
-    this.props.navigation.navigate('OpacInfo');
   }
 
   _getCodeData = async () => {

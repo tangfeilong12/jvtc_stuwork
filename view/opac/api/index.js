@@ -1,4 +1,4 @@
-const url = 'http://192.168.9.101:6722';
+const url = 'http://192.168.1.150:6722';
 import Axios from 'react-native-axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -40,7 +40,7 @@ xhr.interceptors.request.use(async config => {
     }
     config.withCredentials = true; // 允许携带token ,这个是解决跨域产生的相关问题
     token && (config.headers.authorization = "Bearer " + token);
-    
+
     return config;
 },
     error => {
@@ -67,4 +67,12 @@ export const search = (keyword) => {
 
 export const getDetail = (id) => {
     return xhr.get(`public/search/detail?id=${id}`);
+};
+
+export const getBookList = () => {
+    return xhr.get(`info/book_list`);
+};
+
+export const renew = (data) => {
+    return xhr.post(`renew`, data);
 };
