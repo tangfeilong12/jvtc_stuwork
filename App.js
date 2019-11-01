@@ -19,6 +19,7 @@ import OpacLogin from './view/opac/Login';
 import OpacSearch from './view/opac/Search';
 import OpacInfo from './view/opac/Info';
 import OpacBookList from './view/opac/BookList';
+import OpacBookHist from './view/opac/BookHist';
 
 
 import Ionicons from 'react-native-vector-icons/AntDesign';
@@ -88,13 +89,17 @@ const TopTabNavs = createMaterialTopTabNavigator({
     OpacBookList: {
         screen: OpacBookList
     },
+    OpacBookHist: {
+        screen: OpacBookHist
+    },
     OpacInfo: {
         screen: OpacInfo
     },
 }, {
+    lazy: true,
     backBehavior: "none",
     tabBarOptions: {
-        inactiveTintColor:'#666',
+        inactiveTintColor: '#666',
         indicatorStyle: {
             backgroundColor: '#f39fff',
         },

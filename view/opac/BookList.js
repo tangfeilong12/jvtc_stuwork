@@ -24,7 +24,7 @@ const shadowOpt = {
 
 export default class BookList extends Component {
   static navigationOptions = {
-    title: '已借图书',
+    title: '借阅中',
     header: null
   };
   constructor(props) {
@@ -100,7 +100,7 @@ export default class BookList extends Component {
         const date = new Date(renewalObj[3]);
         date.setMonth(date.getMonth() + 1);
         renewalObj[3] = date.toLocaleDateString();
-
+        renewalObj[4] += 1;
         this.setState({
           table_line: JSON.parse(JSON.stringify(table_line))
         });

@@ -73,6 +73,10 @@ export const getBookList = () => {
     return xhr.get(`info/book_list`);
 };
 
+export const getBookHist = () => {
+    return xhr.get(`info/book_hist`);
+};
+
 export const renew = (data) => {
     return xhr.post(`renew`, data);
 };
