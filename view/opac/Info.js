@@ -45,7 +45,7 @@ export default class Info extends Component {
             <View style={styles.item_style}>
               {
                 mylib_info.map(item => (
-                  <Text style={[styles.item_main_li]}>{item}</Text>
+                  <Text style={[styles.item_main_li]} key={item}>{item}</Text>
                 ))
               }
             </View>

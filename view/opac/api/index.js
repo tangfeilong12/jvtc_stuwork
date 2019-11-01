@@ -1,4 +1,4 @@
-const url = 'http://192.168.9.101:6722';
+const url = 'http://192.168.9.103:6722';
 import Axios from 'react-native-axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -67,6 +67,10 @@ export const search = (keyword) => {
 
 export const getDetail = (id) => {
     return xhr.get(`public/search/detail?id=${id}`);
+};
+
+export const getCreditDetail= (id) => {
+    return xhr.get(`info/credit_detail`);
 };
 
 export const getBookList = () => {
