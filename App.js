@@ -20,7 +20,7 @@ import OpacSearch from './view/opac/Search';
 import OpacInfo from './view/opac/Info';
 import OpacBookList from './view/opac/BookList';
 import OpacBookHist from './view/opac/BookHist';
-
+import OpacAccount from './view/opac/Account';
 
 import Ionicons from 'react-native-vector-icons/AntDesign';
 
@@ -91,6 +91,9 @@ const TopTabNavs = createMaterialTopTabNavigator({
     },
     OpacBookHist: {
         screen: OpacBookHist
+    },
+    OpacAccount: {
+        screen: OpacAccount
     },
     OpacInfo: {
         screen: OpacInfo

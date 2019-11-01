@@ -4,7 +4,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   item_title: {
-    color: '#000', fontSize: 18, fontWeight: '700', marginLeft: 4, flex:1
+    color: '#000', fontSize: 18, fontWeight: '700', marginLeft: 4, flex: 1
   },
   item_subhead: {
     marginTop: 4, color: '#333', fontWeight: '700'
@@ -32,7 +32,7 @@ export default StyleSheet.create({
     height: 46,
     fontWeight: '600',
     color: '#fff',
-    flexGrow:1
+    flexGrow: 1
   },
   btn: {
     textAlign: 'center',
@@ -51,7 +51,13 @@ export default StyleSheet.create({
     color: "#fff",
     fontWeight: '700'
   },
-  btnDs:{
-    opacity:0.4
+  btnDs: {
+    opacity: 0.4
+  },
+  item_main_title: {
+    paddingLeft: 4, paddingRight: 4, borderBottomColor: '#eee', borderBottomWidth: StyleSheet.hairlineWidth, width: '100%', height: 40, display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'
+  },
+  item_main_li: {
+    display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', padding: 10, 
   }
 });

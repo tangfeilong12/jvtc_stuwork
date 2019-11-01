@@ -130,7 +130,7 @@ export default class BookList extends Component {
       const titleAndAbout = item[1] || '/';
       const [title, about] = titleAndAbout.split('/');
       return (<View style={styles.item_style} key={item[0]}>
-        <View style={{ paddingLeft: 4, paddingRight: 4, borderBottomColor: '#eee', borderBottomWidth: StyleSheet.hairlineWidth, width: '100%', height: 40, display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+        <View style={styles.item_main_title}>
           <IoniconsFeather name='book-open' size={20} color='#000' style={{ marginLeft: 4 }} />
           <Text ellipsizeMode='tail' numberOfLines={1} style={styles.item_title}>{title}</Text>
         </View>
@@ -138,10 +138,10 @@ export default class BookList extends Component {
           <Text style={styles.item_subhead}>借阅时间：<Text style={{ color: '#a7afff' }}>{item[2]}</Text></Text>
           <Text style={styles.item_subhead}>到期时间：<Text style={{ color: '#f39fff' }}>{item[3]}</Text></Text>
         </View>
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', padding: 10, paddingTop: 0 }}>
+        <View style={styles.item_main_li}>
           <Text style={styles.item_info} ellipsizeMode='tail' numberOfLines={1} >作者/出版：{about}</Text>
         </View>
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', padding: 10, paddingTop: 0 }}>
+        <View style={styles.item_main_li}>
           <Text style={styles.item_info}>编号：{item[0]}</Text>
           <Text style={styles.item_info}>续约次数：{item[4]}</Text>
         </View>

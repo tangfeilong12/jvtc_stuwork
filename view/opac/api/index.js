@@ -1,4 +1,4 @@
-const url = 'http://192.168.1.150:6722';
+const url = 'http://192.168.9.101:6722';
 import Axios from 'react-native-axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -76,7 +76,15 @@ export const getBookList = () => {
 export const getBookHist = () => {
     return xhr.get(`info/book_hist`);
 };
+export const getAccount = () => {
+    return xhr.get(`info/account`);
+};
+
 
 export const renew = (data) => {
     return xhr.post(`renew`, data);
+};
+
+export const info = () => {
+    return xhr.get(`info`);
 };
