@@ -3,12 +3,12 @@ import { View, Text, StatusBar, Alert, ScrollView, StyleSheet } from 'react-nati
 import LinearGradient from 'react-native-linear-gradient';
 import styles from './styles/info_styles'
 import IoniconsFeather from 'react-native-vector-icons/Feather';
-import { getBookHist } from './api';
+import { getFinePec } from './api';
 
 
-export default class BookHist extends Component {
+export default class FinePec extends Component {
   static navigationOptions = {
-    title: '借阅历史',
+    title: '违章缴费',
     header: null
   };
   constructor(props) {
@@ -25,7 +25,7 @@ export default class BookHist extends Component {
 
   async componentDidMount() {
     try {
-      const { data } = await getBookHist();
+      const { data } = await getFinePec();
       console.warn(data.table_line);
 
       this.setState({
@@ -43,22 +43,23 @@ export default class BookHist extends Component {
 
     return this.state.table_line.map(item => {
       if (!Array.isArray(item)) return null;
-      const [title, about] = [item[2], item[3]];
+      const [title, about] = [item[2], item[1]];
       return (<View style={styles.item_style} key={item[0]}>
         <View style={styles.item_main_title}>
           <IoniconsFeather name='calendar' size={20} color='#000' style={{ marginLeft: 4 }} />
           <Text ellipsizeMode='tail' numberOfLines={1} style={styles.item_title}>{title}</Text>
         </View>
-        <View style={styles.item_main_li}>
-          <Text style={styles.item_subhead}>借阅时间：<Text style={{ color: '#a7afff' }}>{item[4]}</Text></Text>
-          <Text style={styles.item_subhead}>还书时间：<Text style={{ color: '#f39fff' }}>{item[5]}</Text></Text>
+        <View  style={styles.item_main_li}>
+          <Text style={styles.item_subhead}>条码号：<Text style={{ color: '#f39fff' }}>{item[0]}</Text></Text>
+          <Text style={styles.item_subhead}>状态：<Text style={{ color: '#a7afff' }}>{item[9]}</Text></Text>
         </View>
         <View style={styles.item_main_li}>
-          <Text style={styles.item_info} ellipsizeMode='tail' numberOfLines={1} >作者/出版：{about}</Text>
+          <Text style={styles.item_info} ellipsizeMode='tail' numberOfLines={1} >借阅日：{about}</Text>
+          <Text style={styles.item_info} ellipsizeMode='tail' numberOfLines={1} >应还日：{about}</Text>
         </View>
         <View style={styles.item_main_li}>
-          <Text style={styles.item_info}>编号：{item[1]}</Text>
-          <Text style={styles.item_info}>位置：{item[6]}</Text>
+          <Text style={styles.item_info}>应缴：{item[7]}</Text>
+          <Text style={styles.item_info}>实缴：{item[8]}</Text>
         </View>
       </View>)
 

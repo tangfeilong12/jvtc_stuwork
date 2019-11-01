@@ -49,7 +49,7 @@ export default class CreditDetail extends Component {
           <IoniconsFeather name='calendar' size={20} color='#000' style={{ marginLeft: 4 }} />
           <Text ellipsizeMode='tail' numberOfLines={1} style={styles.item_title}>{title}</Text>
         </View>
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', padding: 10 }}>
+        <View  style={styles.item_main_li}>
           <Text style={styles.item_subhead}>类型：<Text style={{ color: '#a7afff' }}>{item[2]}</Text></Text>
           <Text style={styles.item_subhead}>积分：<Text style={{ color: '#f39fff' }}>{item[3]}</Text></Text>
         </View>

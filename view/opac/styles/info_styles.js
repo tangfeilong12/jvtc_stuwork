@@ -58,6 +58,6 @@ export default StyleSheet.create({
     paddingLeft: 4, paddingRight: 4, borderBottomColor: '#eee', borderBottomWidth: StyleSheet.hairlineWidth, width: '100%', height: 40, display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'
   },
   item_main_li: {
-    display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', padding: 10, 
+    display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', padding: 10, paddingTop: 0, paddingBottom: 10
   }
 });

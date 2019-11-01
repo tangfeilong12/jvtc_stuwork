@@ -58,7 +58,7 @@ export default class BookHist extends Component {
           <IoniconsFeather name='wind' size={20} color='#000' style={{ marginLeft: 4 }} />
           <Text ellipsizeMode='tail' numberOfLines={1} style={styles.item_title}>{title}</Text>
         </View>
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', padding: 10 }}>
+        <View  style={styles.item_main_li}>
           <Text style={styles.item_subhead}>结算项目：<Text style={{ color: '#a7afff' }}>{item[1]}</Text></Text>
           <Text style={styles.item_subhead}>结算时间：<Text style={{ color: '#f39fff' }}>{item[0]}</Text></Text>
         </View>

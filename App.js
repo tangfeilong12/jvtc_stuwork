@@ -22,6 +22,7 @@ import OpacBookList from './view/opac/BookList';
 import OpacBookHist from './view/opac/BookHist';
 import OpacAccount from './view/opac/Account';
 import OpacCreditDetail from './view/opac/CreditDetail';
+import OpacFinePec from './view/opac/FinePec';
 
 
 import Ionicons from 'react-native-vector-icons/AntDesign';
@@ -97,6 +98,9 @@ const TopTabNavs = createMaterialTopTabNavigator({
     OpacAccount: {
         screen: OpacAccount
     },
+    OpacFinePec: {
+        screen: OpacFinePec
+    },
     OpacCreditDetail: {
         screen: OpacCreditDetail
     },
@@ -120,7 +124,7 @@ const TopTabNavs = createMaterialTopTabNavigator({
         },
         tabStyle: {
             width: 100,
-            padding:4,
+            padding: 4,
         },
         style: {
             paddingTop: StatusBar.currentHeight,

@@ -69,8 +69,12 @@ export const getDetail = (id) => {
     return xhr.get(`public/search/detail?id=${id}`);
 };
 
-export const getCreditDetail= (id) => {
+export const getCreditDetail= () => {
     return xhr.get(`info/credit_detail`);
+};
+
+export const getFinePec= () => {
+    return xhr.get(`info/fine_pec`);
 };
 
 export const getBookList = () => {
