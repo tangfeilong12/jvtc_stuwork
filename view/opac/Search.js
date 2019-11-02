@@ -38,13 +38,17 @@ export default class Index extends Component {
     // 获取数据，并渲染
     try {
       console.warn(1);
-      
+
       const { data } = await search(keyword);
       console.warn(3);
       this.setState({
         list: data
       });
-
+      if (!data.length) {
+        Toast.show("未找到", { opacity: 0.6 })
+      } else {
+        Toast.show("搜索到" + data.length + "本", { opacity: 0.6 })
+      }
       console.warn(4);
     } catch (error) {
       console.warn(5);

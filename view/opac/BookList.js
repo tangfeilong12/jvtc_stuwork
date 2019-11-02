@@ -48,6 +48,9 @@ export default class BookList extends Component {
         table_line: data.table_line,
         listReNew: data.listReNew
       });
+      if (data.table_line.length === 0) {
+        Toast.show("空", { opacity: 0.6 });
+      }
     } catch (error) {
       console.warn("==>", error);
       Alert.alert("出错了", error.message || error);
@@ -134,7 +137,7 @@ export default class BookList extends Component {
           <IoniconsFeather name='book-open' size={20} color='#000' style={{ marginLeft: 4 }} />
           <Text ellipsizeMode='tail' numberOfLines={1} style={styles.item_title}>{title}</Text>
         </View>
-        <View  style={styles.item_main_li}>
+        <View style={styles.item_main_li}>
           <Text style={styles.item_subhead}>借阅时间：<Text style={{ color: '#a7afff' }}>{item[2]}</Text></Text>
           <Text style={styles.item_subhead}>到期时间：<Text style={{ color: '#f39fff' }}>{item[3]}</Text></Text>
         </View>
