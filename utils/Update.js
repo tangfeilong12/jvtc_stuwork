@@ -6,7 +6,13 @@ export async function isAndroidV(current, _type) {
   const { v, type, link, msg } = data;
 
   if (type === _type) {
-    if (current !== v) {
+    const vs = v.split('.');
+    console.warn(current.split('.'), vs);
+    const end = current.split('.').filter((item, index) => {
+      return parseInt(item) < parseInt(vs[index]);
+    });
+    console.warn(end);
+    if (end.length >= 1) {
       return {
         flag: true,
         link,

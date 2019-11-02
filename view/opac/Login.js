@@ -100,11 +100,14 @@ export class Login extends Component {
       password
     });
   }
-  componentDidMount() {
+  async componentDidMount() {
+    await AsyncStorage.setItem('opac_token', '');
     this._getCodeData();
     this.initUser();
   }
-
+  componentWillUnmount() {
+    StatusBar.setBarStyle("light-content");
+  }
   _changeUsername = (text) => {
     if (text.length === 0) {
       this.setState({

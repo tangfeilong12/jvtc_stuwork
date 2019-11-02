@@ -1,4 +1,4 @@
-const url = 'http://192.168.9.103:6722';
+const url = 'http://api.ncgame.cc/opac';
 import Axios from 'react-native-axios';
 import AsyncStorage from '@react-native-community/async-storage';
 

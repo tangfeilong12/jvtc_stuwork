@@ -88,7 +88,7 @@ export default class Login extends Component {
     }
 
     async componentWillMount() {
-        this.updateApp('1.0.3');
+        this.updateApp('1.0.4');
         CodePush.disallowRestart();//禁止重启
         this.syncImmediate(); //开始检查更新
         //    这里处理 打开后 自动登陆
