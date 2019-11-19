@@ -43,11 +43,11 @@ const shadowOpt = {
   y: -6,
 };
 
-const Header = ({ left, right, center }) => {
+const Header = ({ left, right, center, isL }) => {
 
   return (
     <BoxShadow setting={shadowOpt}>
-      <ImageBackground resizeMode='cover' source={require('../assets/img/home_top.png')} style={styles.bg}>
+      <ImageBackground resizeMode='cover' source={isL ? require('../assets/img/f_bg.png') : require('../assets/img/home_top.png')} style={styles.bg}>
         <View style={styles.head}>
           <View style={styles.left}>
             {left}
@@ -68,5 +68,6 @@ Header.propTypes = {
   left: PropTypes.element,
   center: PropTypes.element,
   right: PropTypes.element,
+  isL: PropTypes.bool,
 }
 export default Header;

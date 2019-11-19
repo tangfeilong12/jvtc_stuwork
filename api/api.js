@@ -11,7 +11,7 @@ const xhr = Axios.create({
 
 xhr.interceptors.response.use(async response => {
     const data = response.data;
-    if (data.code !== 0 && data.result !== 200) {
+    if (data.code !== 0 && data.result !== 200 && data.code !== 200) {
         throw new Error(data && data.message || "未知错误");
     }
 
@@ -79,23 +79,18 @@ export const StuEnlightenRoomScore = async () => {
 };
 
 export const sendMsg = async (msg) => {
-    return await xhr.post(`/msg`,{msg})
+    return await xhr.post(`/msg`, { msg })
 };
 
 export const Course = async ({
     loginCode,
-    week,
-    semester
+    week
 }) => {
-    return await xhr.post(`https://www.cccccc.online/jvtc/find_score/api/v1/course`, {
-        loginCode,
-        week: week.toString(),
-        semester
-    })
+    return await xhr.get(`https://jvtc.notbucai.com/jwxt/course?week=${week}&loginCode=${loginCode}`)
 };
 
 export const CourseWeek = async () => {
-    return await xhr.get(`https://www.cccccc.online/jvtc/find_score/api/v1/course/week`)
+    return await xhr.get(`https://jvtc.notbucai.com/jwxt/course/week`)
 };
 
 

@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   main: { backgroundColor: "#fff", display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'space-between' },
   left_time: { height: '100%', width: 40, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' },
-  lineStyle: { backgroundColor: '#ccc', height: StyleSheet.hairlineWidth, width: width * 2 },
+  lineStyle: { backgroundColor: '#eee', height: StyleSheet.hairlineWidth, width: width * 2 },
   head_h: {
     height: 30,
     textAlignVertical: 'center',
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   item_info: {
     fontSize: 12,
     color: '#fff',
+    lineHeight: 14
   },
   spinnerTextStyle: {
     color: '#f000'
@@ -95,6 +96,7 @@ export class Curriculum extends Component {
     }
     this.state = {
       courses: [],
+      timetable: [],
       week: {},
       week_day: day,
       loginName: "",
@@ -116,27 +118,29 @@ export class Curriculum extends Component {
     });
 
     week = currentWeek && { ...this.state.week, currentWeek } || await Course.getWeek();
-    console.warn(week);
+
     if (week) {
       this.setState({ week });
-      const courses = await Course.getCourseData(week.currentWeek, loginName);
-      this.setState({ courses, spinner: false });
+      const { timetable, courseList: courses } = await Course.getCourseData(week.currentWeek, loginName);
+      this.setState({ courses, spinner: false, timetable });
     }
-    
+
     this.getData.stat = 0;
 
   }
   showCurrentInfo = async (course) => {
-    const { courseName, teacher, clazz, week, classRoom, building } = course;
+    const str = course.reduce((a, b) => a + b + '\n', '');
+
     Alert.alert(
-      courseName,
-      `上课教室：${classRoom}\n老师：${teacher}\n班级：${clazz}\n上课时间：${week}\n上课地点：${building}`
+      course[0] || '无法显示',
+      str
     );
 
   }
   async componentWillMount() {
     const loginName = await AsyncStorage.getItem('loginName');
     const courses = await AsyncStorage.getItem(loginName + 'courses');
+    const timetable = await AsyncStorage.getItem(loginName + 'timetable');
     const week = await AsyncStorage.getItem(loginName + 'week');
     const courses_time = await AsyncStorage.getItem(loginName + 'courses_time');
     const oldTime = new Date(parseInt(courses_time));
@@ -149,6 +153,7 @@ export class Curriculum extends Component {
           courses: JSON.parse(courses),
           week: JSON.parse(week || {}),
           spinner: false,
+          timetable: JSON.parse(timetable || [])
         });
         return;
       } catch (error) { }
@@ -173,10 +178,11 @@ export class Curriculum extends Component {
     Alert.alert("好像出了点小问题，等会再试吧");
   }
   render() {
-    const { courses, week, week_day, loginName } = this.state;
+    const { courses, week, week_day, loginName, timetable } = this.state;
     return (
       <View style={styles.container}>
         <Header
+          isL={true}
           center={
             <Text style={styles.title}>第{week.currentWeek}周</Text>
           }
@@ -203,9 +209,9 @@ export class Curriculum extends Component {
           <View style={styles.left_time}>
             <Text style={[styles.head_h, styles.left_w, { flex: 0 }]}>{new Date().getMonth() + 1}月</Text>
             {
-              new Array(12).join().split(',').map((item, index) => (
+              timetable.map((item, index) => (
                 <Fragment key={String(Math.random())}>
-                  <Text key={String(Math.random())} style={styles.left_w}>{index + 1}</Text>
+                  <Text key={String(Math.random())} style={styles.left_w}>{index + 1}{'\n'}<Text style={{ fontSize: 10 }}>{(item.length && item[item.length - 1] || '').replace('-', '\n')}</Text></Text>
                   <View key={String(Math.random())} style={styles.lineStyle}></View>
                 </Fragment>
               ))
@@ -228,16 +234,16 @@ export class Curriculum extends Component {
                 courses.map((item, index) => (
                   <View key={index} style={{ flex: 1 }}>
                     {
-                      item.map(course => (
+                      item.map(course => course.length && (
                         <TouchableOpacity key={Math.random().toString()} style={styles.week_day_item_box} onPress={() => { this.showCurrentInfo(course) }}>
 
-                          <View style={[styles.week_day_item, course && { backgroundColor: getStringToColor(course.courseName) } || {}]}>
-                            <Text style={styles.item_title}>{course && course.courseName}</Text>
-                            <Text style={styles.item_info}>@{course && course.classRoom}</Text>
+                          <View style={[styles.week_day_item, course && { backgroundColor: getStringToColor(course[1] || '') } || {}]}>
+                            <Text style={styles.item_title}>{course && course[0]}</Text>
+                            <Text style={styles.item_info}>@{course.length === 9 && course[5] || course[6]}</Text>
                           </View>
 
                         </TouchableOpacity>
-                      ))
+                      ) || <View key={Math.random().toString()} style={styles.week_day_item}></View>)
                     }
                   </View>
                 ))

@@ -25,8 +25,8 @@ export default {
       const totalWeek = data.totalWeek;
       const currentWeek = data.currentWeek;
       return {
-        totalWeek: parseInt(totalWeek.replace(/[^0-9]+/g, '')),
-        currentWeek: parseInt(currentWeek.replace(/[^0-9]+/g, '')),
+        totalWeek: parseInt(totalWeek),
+        currentWeek: parseInt(currentWeek),
       }
     } catch (error) {
       console.error(error);
@@ -35,7 +35,6 @@ export default {
   },
   async getCourseData(week, loginCode) {
     const { data } = await Course({
-      semester: getYear(week),
       week,
       loginCode
     });
