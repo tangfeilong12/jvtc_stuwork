@@ -81,10 +81,10 @@ class Home extends Component {
     async componentWillMount() {
         StatusBar.setBarStyle('light-content');
     }
-    
+
     _onPressLogOut = async () => {
         await AsyncStorage.setItem('logintime', '0');
-        this.props.navigation.navigate('Login');
+        this.props.navigation.navigate('Login', { logout: true });
     }
     _onPressGoPath = async (path, params = {}) => {
         path && this.props.navigation.navigate(path, params);

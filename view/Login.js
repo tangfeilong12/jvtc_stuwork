@@ -105,6 +105,12 @@ export default class Login extends Component {
 
         if ((parseInt(logintime) || 0) + 1 * 60 * 60 * 1000 > Date.now()) {
             this.props.navigation.navigate('Home');
+        } else {
+            console.warn();
+
+            if (!this.props.navigation.state.params || !this.props.navigation.state.params.logout) {
+                this.autoLogin();
+            }
         }
     }
 
@@ -117,8 +123,19 @@ export default class Login extends Component {
         // StatusBar.setBackgroundColor("red");
         StatusBar.setBackgroundColor('transparent');
         StatusBar.setBarStyle("dark-content");
+
     }
 
+    autoLogin = () => {
+        const { loginName, loginPass } = this.state;
+
+        if (!/^[0-9]{4,}$/.test(loginName)) {
+            return;
+        } else if (!loginPass.length) {
+            return;
+        }
+        this.handleClick();
+    }
     render() {
 
         const { handleClick, handleLoginNameChange, handlePasswordChange } = this;
