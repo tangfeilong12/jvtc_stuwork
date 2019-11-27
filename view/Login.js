@@ -138,11 +138,12 @@ export default class Login extends Component {
     }
     render() {
 
-        const { handleClick, handleLoginNameChange, handlePasswordChange } = this;
+        const { handleClick, handleLoginNameChange, handleQuery, handlePasswordChange } = this;
         const { loginName, loginPass, btnStat } = this.state;
 
         return (
             <View style={styles.container}>
+
                 <ImageBackground resizeMode='contain' source={require('../assets/img/h_bg.png')} style={styles.h_style} />
                 <ImageBackground resizeMode='contain' source={require('../assets/img/f_bg.png')} style={styles.f_style} />
 
@@ -169,12 +170,36 @@ export default class Login extends Component {
                             </TouchableHighlight>
                         </BoxShadow>
                     </View>
+                    {/* 免登陆查课表 */}
+                    <View style={{ flex: 1, display: 'flex', alignItems: 'center', marginTop: 20 }}>
+                        <View style={{ width: 100, height: 34 }}>
+                            <TouchableHighlight onPress={handleQuery} style={{ ...styles.btn, backgroundColor: '#d0d0ff' }}
+                                underlayColor="#fa4169aa">
+                                <Text style={[styles.btn_text, { fontSize: 12, color: '#f9fffc' }]}>免登陆查课表</Text>
+                            </TouchableHighlight>
+                        </View>
+                    </View>
                 </View>
                 <View style={{ position: 'absolute', top: height - 60, width: '100%', textAlign: 'center' }}>
                     <Text style={{ textAlign: 'center', fontSize: 14, color: '#69707f' }}>&copy;2019 计算机技术协会</Text>
                 </View>
+
             </View>
         );
+    }
+
+    handleQuery = () => {
+
+        const { loginName, loginPass } = this.state;
+
+        if (!/^[0-9]{4,}$/.test(loginName)) {
+            return Alert.alert("提示", '账号必须输入哦，密码不需要的');
+        }
+        AsyncStorage.setItem("loginName", loginName);
+        AsyncStorage.setItem("loginPass", loginPass);
+
+        this.props.navigation.navigate('CurriculumX', { isdirect: true });
+
     }
 
     async handleClick() {
@@ -190,7 +215,7 @@ export default class Login extends Component {
 
         if (!/^[0-9]{4,}$/.test(loginName)) {
             return Alert.alert("请输入正确的学号!");
-        } else if (!loginPass.length) {
+        } else if (!loginPass || !loginPass.length) {
             return Alert.alert("请输入密码!");
         }
 

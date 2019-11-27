@@ -171,6 +171,9 @@ const SwitchNavigator = createSwitchNavigator({
     Login: {
         screen: LoginScreen
     },
+    CurriculumX: {
+        screen: CurriculumScreen,
+    },
     StackNavigator
 })
 export default createAppContainer(SwitchNavigator);

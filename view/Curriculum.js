@@ -12,6 +12,7 @@ import Course from '../utils/Course';
 import AsyncStorage from "@react-native-community/async-storage";
 const { width, height } = Dimensions.get('window');
 import Spinner from 'react-native-loading-spinner-overlay';
+import { format, compareAsc } from 'date-fns'
 
 const styles = StyleSheet.create({
   container: {
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
   title: {
     color: '#fff',
     fontWeight: '700',
-    fontSize: 20,
+    fontSize: 16,
   },
   next_perv: {
     color: '#fff'
@@ -87,6 +88,14 @@ const styles = StyleSheet.create({
   }
 });
 
+function getDate(now = 0) {
+  return {
+    data: format(Date.now() + now * 7 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
+    m: format(Date.now() + now * 7 * 24 * 60 * 60 * 1000, 'M'),
+  };
+}
+getDate.c = 0;
+
 export class Curriculum extends Component {
   constructor(props) {
     super(props);
@@ -100,7 +109,9 @@ export class Curriculum extends Component {
       week: {},
       week_day: day,
       loginName: "",
-      spinner: true
+      spinner: true,
+      c_date: getDate().data,
+      c_month: getDate().m
     };
   }
 
@@ -117,12 +128,20 @@ export class Curriculum extends Component {
       spinner: true
     });
 
+    const oldWeekIndex = this.state.week && this.state.week.currentWeek;
+
     week = currentWeek && { ...this.state.week, currentWeek } || await Course.getWeek();
 
     if (week) {
       this.setState({ week });
       const { timetable, courseList: courses } = await Course.getCourseData(week.currentWeek, loginName);
-      this.setState({ courses, spinner: false, timetable });
+      console.warn('oldWeekIndex', oldWeekIndex);
+      if (oldWeekIndex) {
+        getDate.c -= oldWeekIndex > currentWeek ? 1 : -1;
+        console.warn(getDate.c);
+      }
+      const datex = getDate(getDate.c);
+      this.setState({ courses, spinner: false, timetable, c_date: datex.data, c_month: datex.m });
     }
 
     this.getData.stat = 0;
@@ -153,7 +172,7 @@ export class Curriculum extends Component {
           courses: JSON.parse(courses),
           week: JSON.parse(week || {}),
           spinner: false,
-          timetable: JSON.parse(timetable || [])
+          timetable: JSON.parse(timetable || []),
         });
         return;
       } catch (error) { }
@@ -178,13 +197,16 @@ export class Curriculum extends Component {
     Alert.alert("好像出了点小问题，等会再试吧");
   }
   render() {
-    const { courses, week, week_day, loginName, timetable } = this.state;
+    const { courses, week, week_day, loginName, timetable, c_date, c_month } = this.state;
     return (
       <View style={styles.container}>
         <Header
           isL={true}
           center={
-            <Text style={styles.title}>第{week.currentWeek}周</Text>
+            <View style={{ flex: 1, alignItems: "center" }}>
+              <Text style={styles.title}>第{week.currentWeek}周</Text>
+              <Text style={{ color: '#eed' }}>{c_date}</Text>
+            </View>
           }
           left={
             <TouchableOpacity onPress={() => { this.getData(loginName, week.currentWeek - 1) }}>
@@ -207,7 +229,7 @@ export class Curriculum extends Component {
         <View style={styles.main}>
           {/* 左边的时间 */}
           <View style={styles.left_time}>
-            <Text style={[styles.head_h, styles.left_w, { flex: 0 }]}>{new Date().getMonth() + 1}月</Text>
+            <Text style={[styles.head_h, styles.left_w, { flex: 0 }]}>{c_month}月</Text>
             {
               timetable.map((item, index) => (
                 <Fragment key={String(Math.random())}>

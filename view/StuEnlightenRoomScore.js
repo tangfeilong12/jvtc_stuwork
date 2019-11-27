@@ -70,7 +70,7 @@ export default class StuEnlightenRoomScoreObj extends Component {
                         </TouchableOpacity>
                     }
                     center={
-                        <Text style={{ color: '#fff', fontSize: 18 }}>素拓活动</Text>
+                        <Text style={{ color: '#fff', fontSize: 18 }}>宿舍活动</Text>
                     }
                 />
                 <HeadBgImg />

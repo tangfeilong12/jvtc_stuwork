@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, ScrollView, View, Alert, StatusBar,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, Alert, StatusBar, TouchableOpacity } from 'react-native';
 import { user_info } from "../api/api";
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -158,11 +158,11 @@ export default class About extends Component {
                         </TouchableOpacity>
                     }
                     center={
-                        <Text style={{ color: '#fff', fontSize: 18 }}>素拓活动</Text>
+                        <Text style={{ color: '#fff', fontSize: 18 }}>个人信息</Text>
                     }
                 />
                 <HeadBgImg />
-                <ScrollView style={{felx:1}}>
+                <ScrollView style={{ felx: 1 }}>
                     <View style={[styles.item_warp, styles.topSize]}>
                         <View>
                             <Text style={styles.title}>{keyMap.get('basicsinfo')}</Text>
@@ -196,7 +196,7 @@ export default class About extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#f9f9f9',
-        flex:1,
+        flex: 1,
     },
     topSize: {
         marginTop: 0
