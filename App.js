@@ -23,12 +23,15 @@ import OpacBookHist from './view/opac/BookHist';
 import OpacAccount from './view/opac/Account';
 import OpacCreditDetail from './view/opac/CreditDetail';
 import OpacFinePec from './view/opac/FinePec';
+import ScoreSc from './view/Score';
+
 
 
 import Ionicons from 'react-native-vector-icons/AntDesign';
 
 import React from "react";
 import AboutDev from "./view/AboutDev";
+import Score from "./view/Score";
 
 const AppNavigator = createBottomTabNavigator(
     {
@@ -140,6 +143,9 @@ const StackNavigator = createStackNavigator({
     },
     WebViewShow: {
         screen: WebViewShow
+    },
+    Score: {
+        screen: ScoreSc
     },
     AboutDev: {
         screen: AboutDev

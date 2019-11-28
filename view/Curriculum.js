@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
-  Alert
+  Alert,StatusBar
 } from 'react-native';
 import Header from '../components/Header';
 import getStringToColor from '../utils/getStringToColor';
@@ -61,27 +61,34 @@ const styles = StyleSheet.create({
   week_day_item_box: {
     flex: 1,
     margin: 2,
-    // overflow: 'hidden'
+    // marginLeft: 1,
+    // marginRight: 1,
+    overflow: 'hidden'
   },
   week_day_item: {
     flex: 1,
     // backgroundColor: "#dac",
     borderRadius: 4,
-    padding: 3,
+    padding: 4,
+    paddingLeft: 2,
+    paddingRight: 2,
     height: "100%",
     overflow: 'hidden',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   item_title: {
     color: '#fff',
-    fontWeight: '700',
-    fontSize: 12,
-    lineHeight: 16,
+    fontWeight: '600',
+    fontSize: 11,
+    lineHeight: 14,
+    textAlign: 'center',
+    marginBottom:2
   },
   item_info: {
-    fontSize: 12,
+    fontSize: 10,
     color: '#fff',
-    lineHeight: 14
+    textAlign: 'center',
+    lineHeight: 13
   },
   spinnerTextStyle: {
     color: '#f000'
@@ -92,6 +99,7 @@ function getDate(now = 0) {
   return {
     data: format(Date.now() + now * 7 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
     m: format(Date.now() + now * 7 * 24 * 60 * 60 * 1000, 'M'),
+
   };
 }
 getDate.c = 0;
@@ -141,7 +149,10 @@ export class Curriculum extends Component {
         console.warn(getDate.c);
       }
       const datex = getDate(getDate.c);
-      this.setState({ courses, spinner: false, timetable, c_date: datex.data, c_month: datex.m });
+
+      courses.unshift(courses.pop())
+
+      this.setState({ courses: courses, spinner: false, timetable, c_date: datex.data, c_month: datex.m });
     }
 
     this.getData.stat = 0;
@@ -157,6 +168,7 @@ export class Curriculum extends Component {
 
   }
   async componentWillMount() {
+    StatusBar.setBarStyle("light-content");
     const loginName = await AsyncStorage.getItem('loginName');
     const courses = await AsyncStorage.getItem(loginName + 'courses');
     const timetable = await AsyncStorage.getItem(loginName + 'timetable');
@@ -244,7 +256,7 @@ export class Curriculum extends Component {
             {/* 上面的日期 */}
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               {
-                ['一', '二', '三', '四', '五', '六', '日'].map((item, index) => (
+                ['日', '一', '二', '三', '四', '五', '六'].map((item, index) => (
                   <Text style={[styles.head_w, styles.head_h, week_day === (index + 1) ? { backgroundColor: "#eee" } : {}]} key={item}>周{item}</Text>
                 ))
               }
@@ -265,7 +277,7 @@ export class Curriculum extends Component {
                           </View>
 
                         </TouchableOpacity>
-                      ) || <View key={Math.random().toString()} style={styles.week_day_item}></View>)
+                      ) || <View key={Math.random().toString()} style={styles.week_day_item_box}></View>)
                     }
                   </View>
                 ))

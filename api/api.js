@@ -94,6 +94,11 @@ export const CourseWeek = async () => {
 };
 
 
+export const Cjcx = async (data) => {
+    console.warn(data);
+    return await xhr.post(`https://jvtc.notbucai.com/jwxt/cjcx`, {...data})
+};
+
 export const UpdateV = async () => {
     return await Axios.get(`http://v.ncgame.cc/v.json`);
 };

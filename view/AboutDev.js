@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image,Alert, TouchableOpacity, StyleSheet, ScrollView, TextInput, Button } from 'react-native';
+import { View, Text, Image, Alert, TouchableOpacity, StyleSheet, ScrollView, TextInput, Button } from 'react-native';
 import Header from '../components/Header';
 import IoniconsFeather from 'react-native-vector-icons/Feather';
 import { sendMsg } from '../api/api';
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   info: {
     margin: 10,
-    paddingBottom:20,
+    paddingBottom: 20,
     padding: 10,
     borderRadius: 4,
     backgroundColor: "#fff"
@@ -102,7 +102,7 @@ export default class AboutDev extends Component {
   }
   _submitMsg = () => {
     const inputText = this.state.inputText;
-    if(inputText.length < 5){
+    if (inputText.length < 5) {
       return Alert.alert("不能少于5个字符");
     }
     this.setState({
@@ -163,9 +163,13 @@ export default class AboutDev extends Component {
               <Text>由信工-计算机技术协会测试</Text>
             </View>
             <View>
+              <Text style={styles.info_title2}>如果可以的话麻烦大家加群! (长按可复制)</Text>
+              <Text style={styles.info_title2} selectable={true} >Q群号:  592874151 </Text>
+            </View>
+            <View>
               <Text style={styles.info_title2}>问题反馈</Text>
               <TextInput multiline numberOfLines={5} value={this.state.inputText} onChangeText={this._changeInput} style={{ borderColor: '#ddd', textAlignVertical: 'top', marginBottom: 10, padding: 10, borderWidth: StyleSheet.hairlineWidth }} placeholder="请输入问题详情，如果可以的话麻烦留联系方式谢谢" />
-              <View style={{padding:10}}>
+              <View style={{ padding: 10 }}>
                 <Button
                   onPress={this._submitMsg}
                   title="提交"

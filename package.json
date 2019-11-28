@@ -5,8 +5,10 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
+    "dev": "react-native run-android",
     "build:a": "cd ./android && gradlew assembleRelease && cd ..",
-    "log:a": "react-native log-android"
+    "log:a": "react-native log-android",
+    "gg": "npx jetify"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.4.2",

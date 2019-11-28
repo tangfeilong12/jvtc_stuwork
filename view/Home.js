@@ -8,7 +8,8 @@ import React, { Component } from 'react';
 import {
     StyleSheet, Text, View,
     TouchableOpacity,
-    StatusBar, ScrollView
+    StatusBar, ScrollView,
+    Linking
 } from 'react-native';
 import { WorkInfo } from "../api/api";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -59,13 +60,15 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     text: {
-        color: '#222c69'
+        color: '#222c69',
+        fontWeight: '600',
+        marginTop:4
     }
 });
 
 const actions = [
     { path: 'Curriculum', text: '课表', icon: 'github' },
-    { path: 'WebViewShow', text: '校园设备报修', icon: 'frown', params: { title: '九职报修系统', uri: "http://sso.jvtc.jx.cn/cas/login" } },
+    // { path: 'WebViewShow', text: '校园设备报修', icon: 'frown', params: { title: '九职报修系统', uri: "http://sso.jvtc.jx.cn/cas/login" } },
     { path: 'AboutDev', text: '关于开发', icon: 'octagon' },
 ];
 
@@ -121,6 +124,20 @@ class Home extends Component {
                                 </TouchableOpacity>
                             ))
                         }
+
+                        <TouchableOpacity style={styles.p_item} onPress={() => { Linking.openURL('http://sso.jvtc.jx.cn/cas/login') }}>
+                            <View style={styles.item}>
+                                <IoniconsFeather name='frown' size={26} color='#222c69' />
+                                <Text style={styles.text}>校园设备报修</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.p_item} onPress={() => { this.props.navigation.navigate('Score'); }}>
+                            <View style={styles.item}>
+                                <IoniconsFeather name='maximize' size={26} color='#222c69' />
+                                <Text style={styles.text}>成绩查询</Text>
+                            </View>
+                        </TouchableOpacity>
 
                     </View>
 
