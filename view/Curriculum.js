@@ -108,9 +108,9 @@ export class Curriculum extends Component {
   constructor(props) {
     super(props);
     let day = new Date().getDay();
-    if (day === 0) {
-      day = 7;
-    }
+    // if (day === 0) {
+    //   day = 7;
+    // }
     this.state = {
       courses: [],
       timetable: [],
@@ -257,7 +257,7 @@ export class Curriculum extends Component {
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               {
                 ['日', '一', '二', '三', '四', '五', '六'].map((item, index) => (
-                  <Text style={[styles.head_w, styles.head_h, week_day === (index + 1) ? { backgroundColor: "#eee" } : {}]} key={item}>周{item}</Text>
+                  <Text style={[styles.head_w, styles.head_h, week_day === (index) ? { backgroundColor: "#eee" } : {}]} key={item}>周{item}</Text>
                 ))
               }
             </View>
