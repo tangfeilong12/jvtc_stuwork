@@ -61,8 +61,6 @@ const styles = StyleSheet.create({
 
 const actions = [
     { path: 'StuActive', text: '素拓活动', icon: 'calendar' },
-    { path: 'StuEnlightenRoomScore', text: '查寝情况', icon: 'trello' },
-    { path: 'About', text: '个人详细信息', icon: 'meh' },
 ];
 
 class Home extends Component {
@@ -89,7 +87,7 @@ class Home extends Component {
             <View style={styles.container}>
                 <Header
                     center={
-                        <Text style={styles.title}>学工平台相关</Text>
+                        <Text style={styles.title}>教务系统相关</Text>
                     }
                 />
                 <ScrollView style={styles.action}>

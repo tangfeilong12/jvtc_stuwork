@@ -58,11 +58,11 @@ export class WebViewShow extends Component {
       <View style={{ flex: 1 }}>
         <Header
           center={
-            <Text style={{ color: '#fff', fontSize: 18, fontWeight: '600' }}>{this.title}</Text>
+            <Text style={{ color: '#222c69', fontSize: 18, fontWeight: '600' }}>{this.title}</Text>
           }
           right={
             <TouchableOpacity onPress={this.openUrl}>
-              <IoniconsFeather name='eye' size={22} color='#fff' />
+              <IoniconsFeather name='eye' size={22} color='#222c69' />
             </TouchableOpacity>
           }
         />

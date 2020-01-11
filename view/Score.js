@@ -19,12 +19,16 @@ export default class Score extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       scoreObj: {},
       passwrod: '',
       loging: false,
     };
+  }
+
+  async componentDidMount() {
+    const pass = await AsyncStorage.getItem('jwpass');
+    this.setState({ passwrod: pass });
   }
 
   getData = async (loginname, passwrod) => {
@@ -66,8 +70,8 @@ export default class Score extends Component {
     if (data !== null && Object.keys(data).length <= 0) {
       alert('未查询到成绩，请检查密码。成绩可能没有录入！');
     }
-
     this.setState({ loging: false, scoreObj: data || {} });
+    AsyncStorage.setItem('jwpass', passwrod);
   }
 
   showLoginView = () => {
@@ -119,7 +123,7 @@ export default class Score extends Component {
         <Header
           left={
             <TouchableOpacity onPress={() => { this.props.navigation.goBack(); }}>
-              <IoniconsFeather name='chevron-left' size={26} color='#fff' />
+              <IoniconsFeather name='chevron-left' size={26} color='#222c69' />
             </TouchableOpacity>
           }
           center={
@@ -140,10 +144,10 @@ export default class Score extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#f9f9f9',
   },
   title: {
-    color: '#fff',
+    color: '#222c69',
     fontSize: 16,
     fontWeight: '600'
   }

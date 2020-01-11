@@ -98,7 +98,7 @@ export default class About extends Component {
     }
 
     async componentWillMount() {
-        StatusBar.setBarStyle('light-content');
+        StatusBar.setBarStyle('dark-content');
         try {
             let data;
             try {
@@ -154,11 +154,11 @@ export default class About extends Component {
                 <Header
                     left={
                         <TouchableOpacity onPress={() => { this.props.navigation.goBack(); }}>
-                            <IoniconsFeather name='chevron-left' size={26} color='#fff' />
+                            <IoniconsFeather name='chevron-left' size={26} color='#222c69' />
                         </TouchableOpacity>
                     }
                     center={
-                        <Text style={{ color: '#fff', fontSize: 18 }}>个人信息</Text>
+                        <Text style={{ color: '#222c69', fontSize: 18 }}>个人信息</Text>
                     }
                 />
                 <HeadBgImg />

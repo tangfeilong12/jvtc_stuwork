@@ -13,11 +13,14 @@ const { width, height } = Dimensions.get('window');
 import CodePush from "react-native-code-push"; // 引入code-push
 import Toast from 'react-native-root-toast';
 import { isAndroidV } from '../utils/Update';
+import { connect } from 'react-redux';
+import { getThemeConfig } from '../store';
 
 const shadowOpt = {
     width: width - 60,
     height: 50,
-    color: "#eee",
+    // color: "#eee",
+    color: "#282828",
     border: 4,
     radius: 25,
     opacity: 0.7,
@@ -25,7 +28,7 @@ const shadowOpt = {
     y: 14,
     // style: { marginVertical: 5 }
 };
-export default class Login extends Component {
+class Login extends Component {
     static navigationOptions = {
         title: 'Login',
         header: null
@@ -38,6 +41,7 @@ export default class Login extends Component {
             loginPass: '',
             btnStat: 0
         };
+        this.placeholderTextColor = '#d0d0ff';
 
         this.handleClick = this.handleClick.bind(this);
         this.handleLoginNameChange = this.handleLoginNameChange.bind(this);
@@ -106,7 +110,6 @@ export default class Login extends Component {
         if ((parseInt(logintime) || 0) + 1 * 60 * 60 * 1000 > Date.now()) {
             this.props.navigation.navigate('Home');
         } else {
-            console.warn();
 
             if (!this.props.navigation.state.params || !this.props.navigation.state.params.logout) {
                 this.autoLogin();
@@ -122,7 +125,6 @@ export default class Login extends Component {
         StatusBar.setTranslucent(true);
         // StatusBar.setBackgroundColor("red");
         StatusBar.setBackgroundColor('transparent');
-        StatusBar.setBarStyle("dark-content");
 
     }
 
@@ -136,30 +138,66 @@ export default class Login extends Component {
         }
         this.handleClick();
     }
+    changeTheme = () => {
+        const { theme } = this.props;
+
+        styles.inputWarp = {
+            ...styles.inputWarp,
+            backgroundColor: theme.three_color,
+        };
+        styles.inputWarp_info = {
+            ...styles.inputWarp_info,
+            color: theme.nine_color,
+        }
+        styles.input = {
+            ...styles.input,
+            color: theme.ten_color,
+        }
+        styles.btn = {
+            ...styles.btn,
+            backgroundColor: theme.five_color,
+        }
+        styles.btn_mini = {
+            ...styles.btn_mini,
+            backgroundColor: theme.ten_color,
+        }
+        styles.btnDs = {
+            ...styles.btnDs,
+            backgroundColor: theme.six_color,
+        }
+        styles.btn_text = {
+            ...styles.btn_text,
+            color: theme.ten1_color,
+        }
+        this.placeholderTextColor = theme.seven_color;
+        shadowOpt.color = theme.four_color;
+        StatusBar.setBarStyle(theme.bar_style);
+    }
     render() {
+        const { theme } = this.props;
 
         const { handleClick, handleLoginNameChange, handleQuery, handlePasswordChange } = this;
         const { loginName, loginPass, btnStat } = this.state;
-
+        this.changeTheme();
         return (
-            <View style={styles.container}>
+            <View style={[styles.container, { backgroundColor: theme.one_color }]}>
 
                 <ImageBackground resizeMode='contain' source={require('../assets/img/h_bg.png')} style={styles.h_style} />
                 <ImageBackground resizeMode='contain' source={require('../assets/img/f_bg.png')} style={styles.f_style} />
 
                 <View style={styles.login}>
                     <View style={styles.title}>
-                        <Text style={styles.title_bg}>LOGIN</Text>
-                        <Text style={styles.title_text}>九江职业技术学院-学工网</Text>
+                        <Text style={[styles.title_bg, { color: theme.three_color }]}>LOGIN</Text>
+                        <Text style={[styles.title_text, { color: theme.two_color }]}>九江职业技术学院-学工网</Text>
                     </View>
                     <View style={styles.inputWarp}>
                         <Text style={styles.inputWarp_info}>学工账号</Text>
-                        <TextInput style={styles.input} placeholder={"请输入学工网账号"} placeholderTextColor="#d8dce6" value={loginName}
+                        <TextInput style={styles.input} placeholder={"请输入学工网账号"} placeholderTextColor={this.placeholderTextColor} value={loginName}
                             keyboardType="number-pad" onChangeText={handleLoginNameChange} />
                     </View>
                     <View style={styles.inputWarp}>
                         <Text style={styles.inputWarp_info}>学工密码</Text>
-                        <TextInput style={styles.input} secureTextEntry={true} placeholder={"请输入学工网密码"} placeholderTextColor="#d8dce6" value={loginPass}
+                        <TextInput style={styles.input} secureTextEntry={true} placeholder={"请输入学工网密码"} placeholderTextColor={this.placeholderTextColor} value={loginPass}
                             onChangeText={handlePasswordChange} />
                     </View>
                     <View style={styles.inputWarp_btn}>
@@ -173,7 +211,12 @@ export default class Login extends Component {
                     {/* 免登陆查课表 */}
                     <View style={{ flex: 1, display: 'flex', alignItems: 'center', marginTop: 20 }}>
                         <View style={{ width: 100, height: 34 }}>
-                            <TouchableHighlight onPress={handleQuery} style={{ ...styles.btn, backgroundColor: '#d0d0ff' }}
+                            <TouchableHighlight onPress={handleQuery} style={{
+                                ...styles.btn,
+                                ...styles.btn_mini,
+                                // backgroundColor: '#d0d0ff' 
+                                // backgroundColor: '#282828'
+                            }}
                                 underlayColor="#fa4169aa">
                                 <Text style={[styles.btn_text, { fontSize: 12, color: '#f9fffc' }]}>免登陆查课表</Text>
                             </TouchableHighlight>
@@ -181,7 +224,8 @@ export default class Login extends Component {
                     </View>
                 </View>
                 <View style={{ position: 'absolute', top: height - 60, width: '100%', textAlign: 'center' }}>
-                    <Text style={{ textAlign: 'center', fontSize: 14, color: '#69707f' }}>&copy;2019 计算机技术协会</Text>
+                    <Text style={{ textAlign: 'center', fontSize: 14, color: '#69707f' }}>&copy;2018-2020 计算机技术协会</Text>
+                    <Text style={{ textAlign: 'center', fontSize: 14, color: '#69707f' }} selectable={true}>QQ群：592874151</Text>
                 </View>
 
             </View>
@@ -266,13 +310,32 @@ export default class Login extends Component {
     }
 
 }
+
+
+const mapStateToProps = (state) => {
+    return {
+        theme: getThemeConfig('login',state.theme)
+    }
+}
+const mapDispatchToProps = (
+    dispatch,
+    ownProps
+) => {
+    return {
+
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         minHeight: '100%',
         // justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "#ffffff",
+        // backgroundColor: "#ffffff",
+        backgroundColor: "#1a1a1a",
         position: "relative"
     },
     h_style: {
@@ -312,18 +375,21 @@ const styles = StyleSheet.create({
         margin: 0,
         padding: 0,
         fontSize: 80,
-        color: "#f7f7fb",
+        // color: "#f7f7fb",
+        color: "#2d2d2d",
         fontWeight: '500',
     },
     title_text: {
         fontSize: 26,
         fontWeight: '500',
-        color: '#333',
+        // color: '#333',
+        color: '#5f5f5f',
     },
     inputWarp: {
         marginBottom: 20,
         width: '100%',
-        backgroundColor: "#f7f7fb",
+        // backgroundColor: "#f7f7fb",
+        backgroundColor: "#282828",
         borderRadius: 4,
         padding: 20,
         paddingTop: 0,
@@ -331,13 +397,15 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
     inputWarp_info: {
-        color: "#69707f",
+        // color: "#69707f",
+        color: "#5f5f5f",
         fontSize: 14,
         marginTop: 8,
         padding: 0,
     },
     input: {
-        color: "#1d1e2f",
+        color: "#5f5f5f",
+        // color: "#1d1e2f",
         fontWeight: '600',
         fontSize: 18,
         padding: 0,
@@ -355,20 +423,26 @@ const styles = StyleSheet.create({
         height: '100%',
         marginLeft: "auto",
         marginRight: "auto",
-        backgroundColor: '#fa4169',
+        // backgroundColor: '#fa4169',
+        backgroundColor: '#1a1a1a',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 50,
         marginTop: 12
     },
+    btn_mini: {
+
+    },
     btnDs: {
-        backgroundColor: '#fa416999',
+        // backgroundColor: '#fa416999',
+        backgroundColor: '#1a1a1a99',
     },
     btn_text: {
         textAlign: "center",
         fontSize: 16,
         fontWeight: '500',
-        color: '#fff'
+        // color: '#fff'
+        color: "#5f5f5f"
     },
     welcome: {
         fontSize: 10,

@@ -22,12 +22,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9'
   },
   title: {
-    color: '#fff',
+    color: '#222c69',
     fontWeight: '700',
     fontSize: 16,
   },
   next_perv: {
-    color: '#fff'
+    color: '#222c69'
   },
   main: { backgroundColor: "#fff", display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'space-between' },
   left_time: { height: '100%', width: 40, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' },
@@ -217,7 +217,7 @@ export class Curriculum extends Component {
           center={
             <View style={{ flex: 1, alignItems: "center" }}>
               <Text style={styles.title}>第{week.currentWeek}周</Text>
-              <Text style={{ color: '#eed' }}>{c_date}</Text>
+              <Text style={{ color: '#424c89' }}>{c_date}</Text>
             </View>
           }
           left={

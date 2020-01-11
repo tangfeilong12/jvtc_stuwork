@@ -28,7 +28,7 @@ export default class StuActive extends Component {
     }
 
     componentWillMount() {
-        StatusBar.setBarStyle('light-content');
+           StatusBar.setBarStyle('dark-content');
         this.getActiveList.call(this);
         this.getActiveNum.call(this);
     }
@@ -102,11 +102,11 @@ export default class StuActive extends Component {
                 <Header
                     left={
                         <TouchableOpacity onPress={() => { this.props.navigation.goBack(); }}>
-                            <IoniconsFeather name='chevron-left' size={26} color='#fff' />
+                            <IoniconsFeather name='chevron-left' size={26} color='#222c69' />
                         </TouchableOpacity>
                     }
                     center={
-                        <Text style={{ color: '#fff', fontSize: 18 }}>素拓活动</Text>
+                        <Text style={{ color: '#222c69', fontSize: 18 }}>素拓活动</Text>
                     }
                 />
                 <HeadBgImg />
@@ -222,7 +222,7 @@ export default class StuActive extends Component {
 
                 this.setState({ activeList: JSON.parse(JSON.stringify(activeList)) });
                 this.save();
-                Alert.alert("评论成功");
+                Alert.alert("评论成功，请等待学工系统处理，一般为一天再查看结果！");
 
                 await AppAction(active.id);
 

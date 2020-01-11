@@ -17,11 +17,13 @@ import Menu from '../components/Menu';
 import SideMenu from 'react-native-side-menu'
 import Header from '../components/Header';
 import IoniconsFeather from 'react-native-vector-icons/Feather';
+import { connect } from 'react-redux';
+import { getThemeConfig } from '../store';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f9f9f9',
+        backgroundColor: '#f8f8f8',
     },
     avatar: {
         width: 32,
@@ -29,9 +31,9 @@ const styles = StyleSheet.create({
         borderRadius: 24,
     },
     title: {
-        color: "#fff",
+        color: "#222c69",
         fontSize: 16,
-        textShadowColor: "#ccc",
+        textShadowColor: "#888",
         textShadowRadius: 4,
         textShadowOffset: { width: 1, height: 1 },
         fontWeight: '800'
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
     text: {
         color: '#222c69',
         fontWeight: '600',
-        marginTop:4
+        marginTop: 4
     }
 });
 
@@ -76,13 +78,15 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
+        
         this.state = {
             loginName: ""
         }
+        this.iconColor = '#222c69';
     }
 
     async componentWillMount() {
-        StatusBar.setBarStyle('light-content');
+        //    StatusBar.setBarStyle('dark-content');
     }
 
     _onPressLogOut = async () => {
@@ -92,13 +96,18 @@ class Home extends Component {
     _onPressGoPath = async (path, params = {}) => {
         path && this.props.navigation.navigate(path, params);
     }
+    changeTheme = () => {
+        const { theme } = this.props;
+        StatusBar.setBarStyle(theme.bar_style);
+    }
     render() {
+        this.changeTheme();
         return (
             <View style={styles.container}>
                 <Header
                     left={
                         <TouchableOpacity onPress={this.props.onOpen}>
-                            <IoniconsFeather name='user' size={26} color='#fff' />
+                            <IoniconsFeather name='user' size={26} color={this.iconColor} />
                         </TouchableOpacity>
                     }
                     center={
@@ -106,7 +115,7 @@ class Home extends Component {
                     }
                     right={
                         <TouchableOpacity onPress={this._onPressLogOut}>
-                            <IoniconsFeather name='log-out' size={26} color='#fff' />
+                            <IoniconsFeather name='log-out' size={26} color={this.iconColor} />
                         </TouchableOpacity>
                     }
                 />
@@ -118,7 +127,7 @@ class Home extends Component {
                             actions.map(item => (
                                 <TouchableOpacity style={styles.p_item} key={item.text} onPress={() => { this._onPressGoPath(item.path, item.params) }}>
                                     <View style={styles.item}>
-                                        <IoniconsFeather name={item.icon || 'meh'} size={26} color='#222c69' />
+                                        <IoniconsFeather name={item.icon || 'meh'} size={26} color={this.iconColor} />
                                         <Text style={styles.text}>{item.text}</Text>
                                     </View>
                                 </TouchableOpacity>
@@ -127,14 +136,14 @@ class Home extends Component {
 
                         <TouchableOpacity style={styles.p_item} onPress={() => { Linking.openURL('http://sso.jvtc.jx.cn/cas/login') }}>
                             <View style={styles.item}>
-                                <IoniconsFeather name='frown' size={26} color='#222c69' />
+                                <IoniconsFeather name='frown' size={26} color={this.iconColor} />
                                 <Text style={styles.text}>校园设备报修</Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.p_item} onPress={() => { this.props.navigation.navigate('Score'); }}>
                             <View style={styles.item}>
-                                <IoniconsFeather name='maximize' size={26} color='#222c69' />
+                                <IoniconsFeather name='maximize' size={26} color={this.iconColor} />
                                 <Text style={styles.text}>成绩查询</Text>
                             </View>
                         </TouchableOpacity>
@@ -148,7 +157,7 @@ class Home extends Component {
 }
 
 
-export default class HomeS extends Component {
+class HomeS extends Component {
     static navigationOptions = {
         title: '首页',
     };
@@ -183,8 +192,17 @@ export default class HomeS extends Component {
         const menu = <Menu data={this.state.WorkInfo} />;
         return (
             <SideMenu menu={menu} isOpen={this.state.isOpen}>
-                <Home navigation={this.props.navigation} onOpen={() => { this.onMenuItemSelected(true) }} />
+                <Home navigation={this.props.navigation} theme={this.props.theme} onOpen={() => { this.onMenuItemSelected(true) }} />
             </SideMenu>
         );
     }
 }
+
+
+const mapStateToProps = (state) => {
+    return {
+        theme: getThemeConfig('home', state.theme)
+    }
+}
+
+export default connect(mapStateToProps)(HomeS);

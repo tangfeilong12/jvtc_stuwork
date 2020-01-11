@@ -19,7 +19,11 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   bg: {
-    width: '100%', height: 42 + statusBarHeight
+    width: '100%',
+    height: 42 + statusBarHeight,
+    backgroundColor: '#ffffff',
+    borderBottomColor: '#f0f0f0',
+    borderBottomWidth: 1,
   },
   left: {
 
@@ -38,16 +42,15 @@ const shadowOpt = {
   color: "#222c69",
   border: 6,
   // radius: 25,
-  opacity: 0.12,
+  opacity: 0,
   x: 0,
   y: -6,
 };
 
-const Header = ({ left, right, center, isL }) => {
-
+const Header = ({ left, right, center, isL, bgcolor = '#ffffff' }) => {
   return (
     <BoxShadow setting={shadowOpt}>
-      <ImageBackground resizeMode='cover' source={isL ? require('../assets/img/f_bg.png') : require('../assets/img/home_top.png')} style={styles.bg}>
+      <View resizeMode='cover' style={[styles.bg, { backgroundColor: bgcolor }]}>
         <View style={styles.head}>
           <View style={styles.left}>
             {left}
@@ -59,7 +62,7 @@ const Header = ({ left, right, center, isL }) => {
             {right}
           </View>
         </View>
-      </ImageBackground>
+      </View>
     </BoxShadow>
   );
 }

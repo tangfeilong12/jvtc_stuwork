@@ -31,7 +31,6 @@ import Ionicons from 'react-native-vector-icons/AntDesign';
 
 import React from "react";
 import AboutDev from "./view/AboutDev";
-import Score from "./view/Score";
 
 const AppNavigator = createBottomTabNavigator(
     {

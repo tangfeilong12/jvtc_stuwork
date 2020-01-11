@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
   },
   title: {
-    color: "#fff",
+    color: "#222c69",
     fontSize: 16,
     textShadowColor: "#ccc",
     textShadowRadius: 4,
@@ -122,7 +122,7 @@ export default class AboutDev extends Component {
           left={
             // <Text>123123</Text>
             <TouchableOpacity onPress={() => { this.props.navigation.goBack(); }}>
-              <IoniconsFeather name='chevron-left' size={26} color='#fff' />
+              <IoniconsFeather name='chevron-left' size={26} color='#222c69' />
             </TouchableOpacity>
           }
           center={
@@ -151,20 +151,20 @@ export default class AboutDev extends Component {
             <Text style={styles.info_title}>开发说明</Text>
             <View>
               <Text style={styles.info_title2}>首先感谢</Text>
-              <Text>感谢沐凉[QQ:2375622526]提供课表免登陆接口</Text>
+              {/* <Text>感谢沐凉[QQ:2375622526]提供课表免登陆接口</Text> */}
               <Text>感谢信工-计算机技术协会帮助测试</Text>
               <Text>感谢信工-计算机技术协会提供维修平台</Text>
               <Text>感谢信工-计算机技术协会提供学工网相关接口</Text>
             </View>
             <View>
               <Text style={styles.info_title2}>开发概述</Text>
-              <Text>目前由我[不才]负责app开发,沐凉负责相关接口开发</Text>
+              <Text>目前由我[不才]负责app开发、负责相关接口开发</Text>
               <Text>信工-计算机技术协会提供维修平台相关接口</Text>
               <Text>由信工-计算机技术协会测试</Text>
             </View>
             <View>
-              <Text style={styles.info_title2}>如果可以的话麻烦大家加群! (长按可复制)</Text>
-              <Text style={styles.info_title2} selectable={true} >Q群号:  592874151 </Text>
+              <Text style={styles.info_title2}>如果在使用中遇到问题或对平台对技术感兴趣提意见可以加群</Text>
+              <Text style={styles.info_title2} selectable={true} >Q群号（长按复制）:  592874151 </Text>
             </View>
             <View>
               <Text style={styles.info_title2}>问题反馈</Text>
