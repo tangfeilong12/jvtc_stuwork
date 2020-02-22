@@ -71,14 +71,16 @@ const styles = StyleSheet.create({
 const actions = [
     { path: 'Curriculum', text: '课表', icon: 'github' },
     // { path: 'WebViewShow', text: '校园设备报修', icon: 'frown', params: { title: '九职报修系统', uri: "http://sso.jvtc.jx.cn/cas/login" } },
-    { path: 'AboutDev', text: '关于开发', icon: 'octagon' },
+    { path: 'AboutDev', text: '反馈帮助', icon: 'alert-octagon' },
+    { path: 'Score', text: '成绩查询', icon: 'sidebar' },
+    { path: 'About', text: '校园卡查看', icon: 'credit-card' },
 ];
 
 class Home extends Component {
 
     constructor(props) {
         super(props);
-        
+
         this.state = {
             loginName: ""
         }
@@ -133,6 +135,19 @@ class Home extends Component {
                                 </TouchableOpacity>
                             ))
                         }
+                        {/* <TouchableOpacity style={styles.p_item} onPress={() => { this.props.navigation.navigate('Score'); }}>
+                            <View style={styles.item}>
+                                <IoniconsFeather name='maximize' size={26} color={this.iconColor} />
+                                <Text style={styles.text}>成绩查询</Text>
+                            </View>
+                        </TouchableOpacity> */}
+
+                        <TouchableOpacity style={styles.p_item} onPress={() => { Linking.openURL('https://fee.icbc.com.cn/servlet/H5OnlinePaymentServlet?f=ICBCqr&t=2&p=33&x=0&z=&i=UEoxMjAwMTIwMkIwMDAwMTgyOTc=&n=UEoxMjAwMTIwMkIwMDAwMTgyOTc=&l=') }}>
+                            <View style={styles.item}>
+                                <IoniconsFeather name='stop-circle' size={26} color={this.iconColor} />
+                                <Text style={styles.text}>饭卡充值</Text>
+                            </View>
+                        </TouchableOpacity>
 
                         <TouchableOpacity style={styles.p_item} onPress={() => { Linking.openURL('http://sso.jvtc.jx.cn/cas/login') }}>
                             <View style={styles.item}>
@@ -141,12 +156,6 @@ class Home extends Component {
                             </View>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.p_item} onPress={() => { this.props.navigation.navigate('Score'); }}>
-                            <View style={styles.item}>
-                                <IoniconsFeather name='maximize' size={26} color={this.iconColor} />
-                                <Text style={styles.text}>成绩查询</Text>
-                            </View>
-                        </TouchableOpacity>
 
                     </View>
 

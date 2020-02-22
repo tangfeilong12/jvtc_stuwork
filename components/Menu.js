@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Dimensions, StyleSheet,
   ScrollView, View,
-  Image, Text, ImageBackground
+  Image, Text, ImageBackground,
+  TouchableOpacity,
+  Alert,
+  Switch,
 } from 'react-native';
+import { eggs } from '../api/api';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const window = Dimensions.get('window');
 
@@ -66,14 +71,41 @@ const styles = StyleSheet.create({
 export default function Menu({
   data
 }) {
+  const [avatar, setAvatar] = useState(require('../assets/img/avatar.png'));
+  const [isSwitch, setIsSwitch] = useState(true);
+  const [isCurriculum, setIsCurriculum] = useState(true);
+  useEffect(() => {
+    AsyncStorage.getItem('autoLogin', function (error, result) {
+      if (error) {
+      } else {
+        console.warn(result)
+        if (result == 'true') {
+          setIsSwitch(true);
+        } else {
+          setIsSwitch(false);
+        }
+      }
+    }, []);
+  });
+
+  const changeValue = async (value) => {
+    setIsSwitch(value);
+    console.warn(value);
+
+    await AsyncStorage.setItem('autoLogin', String(value));
+  }
+  // { uri: `http://xz.jvtc.jx.cn/JVTC_XG/DownLoad/Student/${data.loginName}.jpg` } 
   return (
     <ScrollView scrollsToTop={false} style={styles.menu}>
       <ImageBackground source={require('../assets/img/menu_bg.png')} resizeMode='cover' style={styles.avatarBg} >
         <View style={styles.avatarContainer}>
-          <Image
-            style={styles.avatar}
-            source={{ uri: `http://xz.jvtc.jx.cn/JVTC_XG/DownLoad/Student/${data.loginName}.jpg` }}
-          />
+          <TouchableOpacity number={0.8} onPress={() => { setAvatar({ uri: `http://xz.jvtc.jx.cn/JVTC_XG/DownLoad/Student/${data.loginName}.jpg` }) }}>
+            <Image
+              style={styles.avatar}
+              source={avatar}
+            />
+          </TouchableOpacity>
+
           <Text style={styles.name}>{data.loginName}</Text>
         </View>
       </ImageBackground>
@@ -85,6 +117,16 @@ export default function Menu({
           </View>
         ))
       }
+      <View style={[styles.item, { marginTop: 20, }]}>
+        <Text style={{ fontSize: 16, color: '#333' }}>自动登录</Text>
+        <Switch
+          onTintColor={'#6a86ff'}
+          thumbColor={'#8899ff'}
+          tintColor={'#aaaccc'}
+          value={isSwitch}
+          onValueChange={(v) => changeValue(v)}></Switch>
+      </View>
+      
     </ScrollView>
   );
 }

@@ -106,11 +106,16 @@ class Login extends Component {
             loginName,
             loginPass
         });
+        
+        const _autoLogin = await AsyncStorage.getItem('autoLogin');
+
+        if (_autoLogin != 'true') {
+            return;
+        }
 
         if ((parseInt(logintime) || 0) + 1 * 60 * 60 * 1000 > Date.now()) {
             this.props.navigation.navigate('Home');
         } else {
-
             if (!this.props.navigation.state.params || !this.props.navigation.state.params.logout) {
                 this.autoLogin();
             }
@@ -314,7 +319,7 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        theme: getThemeConfig('login',state.theme)
+        theme: getThemeConfig('login', state.theme)
     }
 }
 const mapDispatchToProps = (

@@ -168,7 +168,7 @@ export class Curriculum extends Component {
 
   }
   async componentWillMount() {
-    StatusBar.setBarStyle("light-content");
+    StatusBar.setBarStyle('dark-content');
     const loginName = await AsyncStorage.getItem('loginName');
     const courses = await AsyncStorage.getItem(loginName + 'courses');
     const timetable = await AsyncStorage.getItem(loginName + 'timetable');

@@ -146,6 +146,9 @@ const StackNavigator = createStackNavigator({
     Score: {
         screen: ScoreSc
     },
+    Score: {
+        screen: ScoreSc
+    },
     AboutDev: {
         screen: AboutDev
     },

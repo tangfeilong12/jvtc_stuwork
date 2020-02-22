@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Alert, TouchableOpacity, StyleSheet, ScrollView, TextInput, Button } from 'react-native';
+import { View, Text, Image, Alert, TouchableOpacity, StyleSheet, ScrollView, TextInput, Button, AsyncStorage } from 'react-native';
 import Header from '../components/Header';
 import IoniconsFeather from 'react-native-vector-icons/Feather';
 import { sendMsg } from '../api/api';
@@ -100,7 +100,7 @@ export default class AboutDev extends Component {
       inputText: text
     });
   }
-  _submitMsg = () => {
+  _submitMsg = async () => {
     const inputText = this.state.inputText;
     if (inputText.length < 5) {
       return Alert.alert("不能少于5个字符");
@@ -108,7 +108,8 @@ export default class AboutDev extends Component {
     this.setState({
       inputText: ''
     });
-    sendMsg(inputText);
+    const loginName = await AsyncStorage.getItem("loginName");
+    sendMsg(inputText, loginName);
     Alert.alert("提交成功");
   }
 

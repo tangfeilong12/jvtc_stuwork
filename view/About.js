@@ -30,7 +30,8 @@ const basicsinfo = {
     "IdCard": "身份证",
     "GetType1": "类型",
     "BankName": "银行卡类型",
-    "BankNo": "银行卡号"
+    "BankNo": "银行卡号",
+    "OneCard": "校园卡号"
 };
 
 const contactinfo = {
@@ -132,7 +133,7 @@ export default class About extends Component {
             const _key = keyMap.get(key);
 
             const dom = (<View key={key}>
-                <Text style={styles.item}>{_key}: {infoObj[key]}</Text>
+                <Text style={styles.item} selectable>{_key}: {infoObj[key]}</Text>
             </View>);
 
             jsx_dom.push(dom);

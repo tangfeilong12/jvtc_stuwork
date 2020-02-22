@@ -1,4 +1,4 @@
-const url = 'http://api.ncgame.cc/jvtc';
+const url = 'http://192.168.1.3:3214';//'http://api.ncgame.cc/jvtc';
 import Axios from 'react-native-axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -38,6 +38,14 @@ xhr.interceptors.request.use(async config => {
     }
     config.withCredentials = true; // 允许携带token ,这个是解决跨域产生的相关问题
     token && (config.headers.authorization = "Bearer " + token);
+    // console.warn(config);
+    "".includes
+    const isP = config.url.includes('?');
+    if (isP) {
+        config.url += '&rn=1';
+    } else {
+        config.url += '?rn=1';
+    }
 
     return config;
 },
@@ -78,8 +86,12 @@ export const StuEnlightenRoomScore = async () => {
     return await xhr.get(`/StuEnlightenRoomScore`)
 };
 
-export const sendMsg = async (msg) => {
-    return await xhr.post(`/msg`, { msg })
+export const eggs = async (stuNo, type) => {
+    return await xhr.get(`/eggs?stuNo=${stuNo}&type=${type}`);
+};
+
+export const sendMsg = async (msg, stuNo) => {
+    return await xhr.post(`/msg`, { msg, stuNo })
 };
 
 export const Course = async ({
@@ -96,7 +108,7 @@ export const CourseWeek = async () => {
 
 export const Cjcx = async (data) => {
     console.warn(data);
-    return await xhr.post(`https://jvtc.notbucai.com/jwxt/cjcx`, {...data})
+    return await xhr.post(`https://jvtc.notbucai.com/jwxt/cjcx`, { ...data })
 };
 
 export const UpdateV = async () => {
