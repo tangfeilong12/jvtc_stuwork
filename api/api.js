@@ -1,4 +1,4 @@
-const url = 'http://192.168.1.3:3214';//'http://api.ncgame.cc/jvtc';
+const url = 'http://api.ncgame.cc/jvtc';
 import Axios from 'react-native-axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
