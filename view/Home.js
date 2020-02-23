@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 
 const actions = [
     { path: 'Curriculum', text: '课表', icon: 'github' },
-    // { path: 'WebViewShow', text: '校园设备报修', icon: 'frown', params: { title: '九职报修系统', uri: "http://sso.jvtc.jx.cn/cas/login" } },
+    { path: 'WebViewShow', text: '毕业生', icon: 'droplet', params: { title: '九职-毕业生', uri: "http:/https://seniors.netlify.com/" } },
     { path: 'AboutDev', text: '反馈帮助', icon: 'alert-octagon' },
     { path: 'Score', text: '成绩查询', icon: 'sidebar' },
     { path: 'About', text: '校园卡查看', icon: 'credit-card' },
