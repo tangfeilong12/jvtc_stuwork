@@ -11,7 +11,7 @@ import {
     StatusBar, ScrollView,
     Linking
 } from 'react-native';
-import { WorkInfo } from "../api/api";
+import { WorkInfo, getData } from "../api/api";
 import AsyncStorage from "@react-native-community/async-storage";
 import Menu from '../components/Menu';
 import SideMenu from 'react-native-side-menu'
@@ -65,12 +65,65 @@ const styles = StyleSheet.create({
         color: '#222c69',
         fontWeight: '600',
         marginTop: 4
+    },
+    banner_box: {
+        padding: 10,
+        paddingTop: 4,
+        width: '100%',
+    },
+    banner: {
+        backgroundColor: "#fff",
+        borderRadius: 6,
+        borderColor: '#f0f0f0',
+        borderWidth: StyleSheet.hairlineWidth,
+        width: '100%',
+        padding: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
+    banner_title: {
+        fontSize: 22,
+        color: '#222c69',
+        fontWeight: '800',
+        paddingBottom: 20
+    },
+    banner_main: {
+        width: '100%',
+        paddingTop: 10,
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    banner_item: {
+        // flex: 1,
+        display: 'flex',
+        width: '50%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingBottom: 20,
+    },
+    banner_item_label: {
+        color: '#888',
+    },
+    banner_item_value: {
+        color: '#222c69',
+        fontSize: 30,
+    },
+    banner_item_value_user: {
+        color: "#4c39bf",
+        fontWeight: 'bold',
+    },
+    banner_item_value_api: {
+        color: "#2b9a2d",
+        fontWeight: 'bold',
     }
 });
 
 const actions = [
     { path: 'Curriculum', text: '课表', icon: 'github' },
-    { path: 'WebViewShow', text: '毕业生', icon: 'droplet', params: { title: '九职-毕业生', uri: "http:/https://seniors.netlify.com/" } },
+    { path: 'WebViewShow', text: '毕业生', icon: 'droplet', params: { title: '九职-毕业生', uri: "https://seniors.netlify.com/" } },
     { path: 'AboutDev', text: '反馈帮助', icon: 'alert-octagon' },
     { path: 'Score', text: '成绩查询', icon: 'sidebar' },
     { path: 'About', text: '校园卡查看', icon: 'credit-card' },
@@ -82,7 +135,13 @@ class Home extends Component {
         super(props);
 
         this.state = {
-            loginName: ""
+            loginName: "",
+            info: {
+                "toDayApiNum": 'ing',
+                "toMonthApisNum": 'ing',
+                "toAllUserNum": 'ing',
+                "toDayNewUserNum": 'ing'
+            },
         }
         this.iconColor = '#222c69';
     }
@@ -91,6 +150,32 @@ class Home extends Component {
         //    StatusBar.setBarStyle('dark-content');
     }
 
+    async componentDidMount() {
+        this._handleGetData();
+    }
+
+    _handleGetData = async () => {
+        try {
+            let data = await AsyncStorage.getItem('APPDATA');
+            if (data) {
+                data = JSON.parse(data);
+                this.setState({
+                    info: data,
+                });
+            }
+        } catch (error) {
+            console.warn(error);
+        }
+        try {
+            const res = await getData();
+            this.setState({
+                info: res.data,
+            });
+            AsyncStorage.setItem('APPDATA', JSON.stringify(res.data));
+        } catch (error) {
+            console.warn('e=> ', error);
+        }
+    }
     _onPressLogOut = async () => {
         await AsyncStorage.setItem('logintime', '0');
         this.props.navigation.navigate('Login', { logout: true });
@@ -104,6 +189,7 @@ class Home extends Component {
     }
     render() {
         this.changeTheme();
+        const info = this.state.info;
         return (
             <View style={styles.container}>
                 <Header
@@ -122,6 +208,32 @@ class Home extends Component {
                     }
                 />
                 <ScrollView style={styles.action}>
+
+                    <View style={styles.banner_box}>
+                        <View style={styles.banner}>
+                            <View style={styles.banner_title_box}>
+                                <Text style={styles.banner_title}>当前应用数据</Text>
+                            </View>
+                            <View style={styles.banner_main}>
+                                <View style={styles.banner_item}>
+                                    <Text style={styles.banner_item_label}>总用户</Text>
+                                    <Text style={[styles.banner_item_value, styles.banner_item_value_user]}>{info.toAllUserNum}</Text>
+                                </View>
+                                <View style={styles.banner_item}>
+                                    <Text style={styles.banner_item_label}>访问数</Text>
+                                    <Text style={[styles.banner_item_value, styles.banner_item_value_api]}>{info.toMonthApisNum}</Text>
+                                </View>
+                                <View style={styles.banner_item}>
+                                    <Text style={styles.banner_item_label}>今日新增</Text>
+                                    <Text style={styles.banner_item_value}>{info.toDayNewUserNum}</Text>
+                                </View>
+                                <View style={styles.banner_item}>
+                                    <Text style={styles.banner_item_label}>今日访问</Text>
+                                    <Text style={styles.banner_item_value}>{info.toDayApiNum}</Text>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
 
                     <View style={styles.actionContainer}>
 

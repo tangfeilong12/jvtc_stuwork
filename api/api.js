@@ -90,6 +90,9 @@ export const eggs = async (stuNo, type) => {
     return await xhr.get(`/eggs?stuNo=${stuNo}&type=${type}`);
 };
 
+export const getData = async () => {
+    return await xhr.get(`/data`);
+};
 export const sendMsg = async (msg, stuNo) => {
     return await xhr.post(`/msg`, { msg, stuNo })
 };
