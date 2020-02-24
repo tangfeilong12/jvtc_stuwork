@@ -1,4 +1,7 @@
 import { StyleSheet, StatusBar } from 'react-native';
+import { isiOS, isiPhoneX } from '../../../utils/device';
+const statusBarHeight = isiOS() ? (isiPhoneX() ? 34 : 20) : StatusBar.currentHeight;
+
 export default StyleSheet.create({
   MainlinearGradient: {
     flex: 1,
@@ -8,9 +11,9 @@ export default StyleSheet.create({
   },
   header: {
     width: '100%',
-    height: 50 + StatusBar.currentHeight,
+    height: 50 + statusBarHeight,
     backgroundColor: '#00f',
-    paddingTop: StatusBar.currentHeight,
+    paddingTop: statusBarHeight,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',

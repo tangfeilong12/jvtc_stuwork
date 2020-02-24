@@ -2,8 +2,11 @@ import React from 'react';
 import { Dimensions, View, StyleSheet, ImageBackground, StatusBar } from 'react-native';
 import PropTypes from 'prop-types';
 import { BoxShadow } from 'react-native-shadow';
+import { isiPhoneX, isiOS } from '../utils/device';
 const { width } = Dimensions.get('window');
-const statusBarHeight = StatusBar.currentHeight;
+// const statusBarHeight = StatusBar.currentHeight;
+const statusBarHeight = isiOS() ? (isiPhoneX() ? 34 : 20) : StatusBar.currentHeight;
+
 const styles = StyleSheet.create({
   head: {
     width: '100%',

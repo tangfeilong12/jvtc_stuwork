@@ -77,7 +77,7 @@ export default class Score extends Component {
   showLoginView = () => {
     const { loging, passwrod } = this.state;
     return (<View style={{ flex: 1, padding: 20, marginTop: 20 }}>
-      <TextInput secureTextEntry onChangeText={this._changeInput} value={passwrod} style={{ color: '#333', backgroundColor: '#fff', borderRadius: 4, paddingLeft: 20, paddingRight: 20, marginBottom: 20 }} placeholder="请输入教务处密码" />
+      <TextInput secureTextEntry onChangeText={this._changeInput} value={passwrod} style={{ color: '#333', backgroundColor: '#fff', borderRadius: 4,height:48, paddingLeft: 20, paddingRight: 20, marginBottom: 20 }} placeholder="请输入教务处密码" />
       <TouchableOpacity onPress={this.handleLogin} ><Text style={{ color: '#fff', width: '100%', backgroundColor: '#20296a', textAlign: 'center', padding: 12, borderRadius: 4 }}>{loging ? '查询中' : '查询'}</Text></TouchableOpacity>
     </View>);
   }

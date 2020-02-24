@@ -6,6 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "dev": "react-native run-android",
+    "dev:i": "react-native run-ios",
     "build:a": "cd ./android && gradlew assembleRelease && cd ..",
     "log:a": "react-native log-android",
     "gg": "npx jetify"

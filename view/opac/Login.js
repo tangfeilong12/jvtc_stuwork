@@ -4,11 +4,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import styles from './styles/login';
 import { BoxShadow } from 'react-native-shadow';
 const { width } = Dimensions.get('window');
-const statusBarHeight = StatusBar.currentHeight;
+// const statusBarHeight = StatusBar.currentHeight;
 import Toast from 'react-native-root-toast';
 import { getCode, login } from './api'
 import IoniconsFeather from 'react-native-vector-icons/Feather';
 import AsyncStorage from '@react-native-community/async-storage';
+import { isiOS, isiPhoneX } from '../../utils/device';
+const statusBarHeight = isiOS() ? (isiPhoneX() ? 34 : 20) : StatusBar.currentHeight;
+
 const shadowOpt = {
   width: width - 50,
   height: 350,
@@ -174,7 +177,7 @@ export class Login extends Component {
           </LinearGradient> */}
           <BoxShadow setting={shadowOptBack}>
             <TouchableOpacity onPress={() => { this.props.navigation.goBack() }} style={{ flex: 1, }} >
-              <IoniconsFeather name='chevron-left' size={26} color='#fff' style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlignVertical: 'center' }} />
+              <IoniconsFeather name='chevron-left' size={26} color='#fff' style={{ flex: 1, display: 'flex',lineHeight:40, alignItems: 'center', justifyContent: 'center', textAlignVertical: 'center' }} />
             </TouchableOpacity>
           </BoxShadow>
           <BoxShadow setting={shadowOpt}>

@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         paddingRight: 20,
     },
     banner_title: {
-        fontSize: 22,
+        fontSize: 20,
         color: '#222c69',
         fontWeight: '800',
         paddingBottom: 20
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     },
     banner_item_value: {
         color: '#222c69',
-        fontSize: 30,
+        fontSize: 22,
     },
     banner_item_value_user: {
         color: "#4c39bf",

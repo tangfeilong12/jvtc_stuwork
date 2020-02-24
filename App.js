@@ -24,6 +24,7 @@ import OpacAccount from './view/opac/Account';
 import OpacCreditDetail from './view/opac/CreditDetail';
 import OpacFinePec from './view/opac/FinePec';
 import ScoreSc from './view/Score';
+const statusBarHeight = isiOS() ? (isiPhoneX() ? 34 : 20) : StatusBar.currentHeight;
 
 
 
@@ -31,6 +32,7 @@ import Ionicons from 'react-native-vector-icons/AntDesign';
 
 import React from "react";
 import AboutDev from "./view/AboutDev";
+import { isiPhoneX, isiOS } from "./utils/device";
 
 const AppNavigator = createBottomTabNavigator(
     {
@@ -129,7 +131,7 @@ const TopTabNavs = createMaterialTopTabNavigator({
             padding: 4,
         },
         style: {
-            paddingTop: StatusBar.currentHeight,
+            paddingTop: statusBarHeight,
             backgroundColor: '#fff',
         },
     },
