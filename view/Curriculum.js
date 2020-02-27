@@ -99,7 +99,6 @@ function getDate(now = 0) {
   return {
     data: format(Date.now() + now * 7 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
     m: format(Date.now() + now * 7 * 24 * 60 * 60 * 1000, 'M'),
-
   };
 }
 getDate.c = 0;
