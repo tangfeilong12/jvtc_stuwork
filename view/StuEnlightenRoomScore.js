@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, ScrollView, View, Alert, FlatList, StatusBar,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, Alert, FlatList, StatusBar, TouchableOpacity } from 'react-native';
 import { StuEnlightenRoomScore } from "../api/api";
 import AsyncStorage from "@react-native-community/async-storage";
 import HeadBgImg from '../components/HeadBgImg';
@@ -27,7 +27,7 @@ export default class StuEnlightenRoomScoreObj extends Component {
     }
 
     componentWillMount() {
-           StatusBar.setBarStyle('dark-content');
+        StatusBar.setBarStyle('dark-content');
         this.getActiveList.call(this);
     }
 
@@ -74,7 +74,7 @@ export default class StuEnlightenRoomScoreObj extends Component {
                     }
                 />
                 <HeadBgImg />
-                <ScrollView style={{flex:1}}>
+                <ScrollView style={{ flex: 1 }}>
                     <View style={[styles.MyActionGetNum, styles.topSize]}>
                         <Text style={styles.title}>查寝列表</Text>
                         <FlatList
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     container: {
         // padding: 10,
         backgroundColor: '#f0f0f0',
-        flex:1,
+        flex: 1,
     },
     topSize: {
         marginTop: 0
