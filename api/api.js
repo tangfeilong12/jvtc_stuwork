@@ -70,6 +70,10 @@ export const user_info = async () => {
     return await xhr.get(`/user_info`)
 };
 
+export const announcement = async () => {
+    return await xhr.get(`/announcement`)
+};
+
 export const getStuActive = async () => {
     return await xhr.get(`/getStuActive`)
 };

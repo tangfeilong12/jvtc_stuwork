@@ -6,7 +6,7 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, ImageBackground, Dimensions, Linking, Image, Text, View, Alert, TextInput, PixelRatio, TouchableHighlight, StatusBar } from 'react-native';
-import { login } from "../api/api";
+import { login, announcement } from "../api/api";
 import AsyncStorage from "@react-native-community/async-storage";
 import { BoxShadow } from 'react-native-shadow';
 const { width, height } = Dimensions.get('window');
@@ -39,7 +39,8 @@ class Login extends Component {
         this.state = {
             loginName: '',
             loginPass: '',
-            btnStat: 0
+            btnStat: 0,
+            announcement: '',
         };
         this.placeholderTextColor = '#d0d0ff';
 
@@ -90,9 +91,17 @@ class Login extends Component {
         } catch (error) {
         }
     }
-
+    async getAnnouncement() {
+        const res = await announcement();
+        if (res.message) {
+            this.setState({
+                announcement: res.message
+            });
+        }
+    }
     async componentWillMount() {
         this.updateApp('1.0.4');
+        this.getAnnouncement();
         CodePush.disallowRestart();//禁止重启
         this.syncImmediate(); //开始检查更新
         //    这里处理 打开后 自动登陆
@@ -106,7 +115,7 @@ class Login extends Component {
             loginName,
             loginPass
         });
-        
+
         const _autoLogin = await AsyncStorage.getItem('autoLogin');
 
         if (_autoLogin != 'true') {
@@ -182,7 +191,7 @@ class Login extends Component {
         const { theme } = this.props;
 
         const { handleClick, handleLoginNameChange, handleQuery, handlePasswordChange } = this;
-        const { loginName, loginPass, btnStat } = this.state;
+        const { loginName, loginPass, btnStat, announcement } = this.state;
         this.changeTheme();
         return (
             <View style={[styles.container, { backgroundColor: theme.one_color }]}>
@@ -228,7 +237,10 @@ class Login extends Component {
                         </View>
                     </View>
                 </View>
-                <View style={{ position: 'absolute', top: height - 60, width: '100%', textAlign: 'center' }}>
+                <View style={{ position: 'absolute', top: height - 120, width: '100%', textAlign: 'center' }}>
+                    {
+                        announcement ? <Text style={{ textAlign: 'center', fontSize: 14, color: '#f00', backgroundColor: "#ffd0d0",padding:4,marginBottom:6 }}>公告: {announcement}</Text> : null
+                    }
                     <Text style={{ textAlign: 'center', fontSize: 14, color: '#69707f' }}>&copy;2018-2020 计算机技术协会</Text>
                     <Text style={{ textAlign: 'center', fontSize: 14, color: '#69707f' }} selectable={true}>QQ群：592874151</Text>
                 </View>
