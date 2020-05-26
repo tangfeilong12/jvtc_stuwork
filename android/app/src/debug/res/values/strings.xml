@@ -1,4 +1,4 @@
 <resources>
 	<string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">89DhhI1zmxVlxGv8O8VQSVAANg946ecd6ad2-6449-4ff2-9471-e464942b4c0f</string>
-    <string name="app_name">九职院-学工平台-debug</string>
+    <string name="app_name">九小助-debug</string>
 </resources>

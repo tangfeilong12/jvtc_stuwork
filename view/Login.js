@@ -100,7 +100,7 @@ class Login extends Component {
         }
     }
     async componentWillMount() {
-        this.updateApp('1.0.4');
+        this.updateApp('1.0.5');
         this.getAnnouncement();
         CodePush.disallowRestart();//禁止重启
         this.syncImmediate(); //开始检查更新
@@ -202,16 +202,16 @@ class Login extends Component {
                 <View style={styles.login}>
                     <View style={styles.title}>
                         <Text style={[styles.title_bg, { color: theme.three_color }]}>LOGIN</Text>
-                        <Text style={[styles.title_text, { color: theme.two_color }]}>九江职业技术学院-学工网</Text>
+                        <Text style={[styles.title_text, { color: theme.two_color }]}>九小助-登陆</Text>
                     </View>
                     <View style={styles.inputWarp}>
                         <Text style={styles.inputWarp_info}>学工账号</Text>
-                        <TextInput style={styles.input} placeholder={"请输入学工网账号"} placeholderTextColor={this.placeholderTextColor} value={loginName}
+                        <TextInput style={styles.input} placeholder={"请输入学号"} placeholderTextColor={this.placeholderTextColor} value={loginName}
                             keyboardType="number-pad" onChangeText={handleLoginNameChange} />
                     </View>
                     <View style={styles.inputWarp}>
                         <Text style={styles.inputWarp_info}>学工密码</Text>
-                        <TextInput style={styles.input} secureTextEntry={true} placeholder={"请输入学工网密码"} placeholderTextColor={this.placeholderTextColor} value={loginPass}
+                        <TextInput style={styles.input} secureTextEntry={true} placeholder={"请输入密码"} placeholderTextColor={this.placeholderTextColor} value={loginPass}
                             onChangeText={handlePasswordChange} />
                     </View>
                     <View style={styles.inputWarp_btn}>

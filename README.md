@@ -1,4 +1,4 @@
-# react-native 九江职业技术学院 学工 课表
+# react-native 九小助 学工 课表
 
 依赖 https://github.com/jvtc/jvtc-SW
 

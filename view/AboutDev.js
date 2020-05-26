@@ -133,7 +133,7 @@ export default class AboutDev extends Component {
         <ScrollView style={styles.action}>
           <View style={styles.aboutInfo}>
             <Image source={{ uri: "http://v.ncgame.cc/logo.png" }} style={{ height: 80, width: 80 }} />
-            <Text style={styles.about_title}>九职学工平台</Text>
+            <Text style={styles.about_title}>九小助</Text>
           </View>
           <View style={styles.actionContainer}>
             {
@@ -155,7 +155,7 @@ export default class AboutDev extends Component {
               {/* <Text>感谢沐凉[QQ:2375622526]提供课表免登陆接口</Text> */}
               <Text>感谢信工-计算机技术协会帮助测试</Text>
               <Text>感谢信工-计算机技术协会提供维修平台</Text>
-              <Text>感谢信工-计算机技术协会提供学工网相关接口</Text>
+              <Text>感谢信工-计算机技术协会提供九小助相关接口</Text>
             </View>
             <View>
               <Text style={styles.info_title2}>开发概述</Text>

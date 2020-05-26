@@ -3,6 +3,7 @@ import { UpdateV } from "../api/api";
 export async function isAndroidV(current, _type) {
 
   const { data } = await UpdateV();
+  console.warn('update data,_type',data)
   const { v, type, link, msg } = data;
 
   if (type === _type) {
