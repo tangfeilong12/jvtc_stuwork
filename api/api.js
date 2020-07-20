@@ -1,3 +1,4 @@
+// const url = 'http://192.168.10.107:3214';
 const url = 'http://api.ncgame.cc/jvtc';
 import Axios from 'react-native-axios';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -68,6 +69,14 @@ export const WorkInfo = async () => {
 
 export const user_info = async () => {
     return await xhr.get(`/user_info`)
+};
+
+export const stu_judge_score = async (TermTime) => {
+    return await xhr.get(`/stu_judge_score`, {
+        params: {
+            TermTime
+        }
+    })
 };
 
 export const announcement = async () => {

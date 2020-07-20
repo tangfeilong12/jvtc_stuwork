@@ -24,6 +24,7 @@ import OpacAccount from './view/opac/Account';
 import OpacCreditDetail from './view/opac/CreditDetail';
 import OpacFinePec from './view/opac/FinePec';
 import ScoreSc from './view/Score';
+import StuJudgeScore from './view/StuJudgeScore';
 const statusBarHeight = isiOS() ? (isiPhoneX() ? 34 : 20) : StatusBar.currentHeight;
 
 
@@ -169,6 +170,7 @@ const StackNavigator = createStackNavigator({
     About: {
         screen: AboutScreen
     },
+    StuJudgeScore,
     AppNavigator,
     TopTabNavs
 }, {

@@ -82,6 +82,7 @@ class Login extends Component {
     async updateApp(v) {
         try {
             const { flag, link, msg } = await isAndroidV(v, 'android');
+            // console.warn('flag',flag)
             if (flag) {
                 Alert.alert('有版本更新', msg || '是否更新', [
                     { text: '确认', onPress: () => { Linking.openURL(link); } },
@@ -89,6 +90,7 @@ class Login extends Component {
                 ]);
             }
         } catch (error) {
+            console.error(error)
         }
     }
     async getAnnouncement() {

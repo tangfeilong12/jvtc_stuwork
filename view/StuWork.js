@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
 const actions = [
     { path: 'StuActive', text: '素拓活动', icon: 'calendar' },
     { path: 'StuEnlightenRoomScore', text: '查寝情况', icon: 'trello' },
+    { path: 'StuJudgeScore', text: '成绩排名', icon: 'sunrise' },
     { path: 'About', text: '个人详细信息', icon: 'meh' },
 ];
 
